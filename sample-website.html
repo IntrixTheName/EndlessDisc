@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Music Library Manager</title>
+    </head>
+
+    <body>
+        <h1>User Selection</h1>
+        Username: <input type="text" id="username"><br>
+        <br>
+        <button onclick="display_username()">Submit</button><br>
+        <p id="print_username"></p>
+
+        <script>
+            function display_username() {
+                var name = document.getElementById('username').value;
+                document.getElementById("print_username").innerHTML = "Hello " + name;
+            }
+        </script>
+    </body>
+</html>
