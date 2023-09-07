@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Selection Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .option {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .option:hover {
+            background-color: #e0e0e0;
+        }
+
+        .selected {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .selected:hover {
+            background-color: #3498db;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>User Selection</h1>
+        <label for="username">Select User</label>
+        <select name="username" id="username">
+            <option value="IntrixTheName">Bradley</option>
+            <option value="JDK">Jordan</option>
+            <option value="KitKat">Katarya</option>
+        </select>
+    </div>
+    
+    <script>
+        // JavaScript to handle option selection
+        const option1 = document.getElementById('option1');
+        const option2 = document.getElementById('option2');
+
+        option1.addEventListener('click', () => {
+            option1.classList.add('selected');
+            option2.classList.remove('selected');
+        });
+
+        option2.addEventListener('click', () => {
+            option2.classList.add('selected');
+            option1.classList.remove('selected');
+        });
+    </script>
+</body>
+</html>
