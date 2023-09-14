@@ -1,0 +1,262 @@
+<mxfile host="Electron" modified="2023-09-14T17:52:09.304Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="AGjVrc23o-4vaD8tDe9h" version="21.6.8" type="device">
+  <diagram name="Page-1" id="giTBiuNcyM0yZ-0crNkF">
+    <mxGraphModel dx="554" dy="484" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-1" value="&lt;h1&gt;Uploading a File&lt;/h1&gt;&lt;div&gt;The below diagram represents a high-level overview of uploading a track (or tracks) to the music library. I will also attempt to list user stories where possible.&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="10" y="10" width="210" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-2" value="Connect" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="330" y="40" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-3" value="File of CRC Information" style="strokeWidth=1;html=1;shape=mxgraph.flowchart.stored_data;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="425" y="40" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-4" value="Read information from CRC File" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="415" y="100" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-5" value="Generate CRC data structure" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="415" y="170" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-6" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-4" target="9_iYFjdAhvZHz7Ka0Q3p-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="150" as="sourcePoint" />
+            <mxPoint x="400" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-7" value="Upload file(s)" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="100" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-8" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-2" target="9_iYFjdAhvZHz7Ka0Q3p-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="150" as="sourcePoint" />
+            <mxPoint x="400" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-9" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-2" target="9_iYFjdAhvZHz7Ka0Q3p-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="250" y="90" as="sourcePoint" />
+            <mxPoint x="300" y="40" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-10" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-3" target="9_iYFjdAhvZHz7Ka0Q3p-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="150" as="sourcePoint" />
+            <mxPoint x="400" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-11" value="Parse metadata/tags" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="170" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-12" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-7" target="9_iYFjdAhvZHz7Ka0Q3p-11">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="150" as="sourcePoint" />
+            <mxPoint x="400" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-13" value="Prefill entry form" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="260" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-17" value="Tags present?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="230" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-18" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-11" target="9_iYFjdAhvZHz7Ka0Q3p-17">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="250" as="sourcePoint" />
+            <mxPoint x="400" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-19" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#009900;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-17" target="9_iYFjdAhvZHz7Ka0Q3p-13">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="250" as="sourcePoint" />
+            <mxPoint x="400" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-20" value="Tag entry screen" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="300" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-21" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#CC0000;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-17" target="9_iYFjdAhvZHz7Ka0Q3p-20">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="330" as="sourcePoint" />
+            <mxPoint x="440" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-22" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-13" target="9_iYFjdAhvZHz7Ka0Q3p-20">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="220" y="400" as="sourcePoint" />
+            <mxPoint x="270" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-23" value="Attempt to match audio data or tag data CRC" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="398.5" y="355" width="133" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-25" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-5" target="9_iYFjdAhvZHz7Ka0Q3p-23">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="330" as="sourcePoint" />
+            <mxPoint x="445.6500000000001" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-26" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-20" target="9_iYFjdAhvZHz7Ka0Q3p-23">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="330" as="sourcePoint" />
+            <mxPoint x="427.38235294117646" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-28" value="Alert: File may already exist. Continue?" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="355" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-34" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#CC6600;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-23" target="9_iYFjdAhvZHz7Ka0Q3p-28">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="490" y="520" as="sourcePoint" />
+            <mxPoint x="590" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-35" value="Match Found" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;rotation=312;" connectable="0" vertex="1" parent="9_iYFjdAhvZHz7Ka0Q3p-34">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="9" y="-30" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-38" value="Ignore Upload" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="615" y="280" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-39" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#CC0000;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-28" target="9_iYFjdAhvZHz7Ka0Q3p-38">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="410" y="330" as="sourcePoint" />
+            <mxPoint x="460" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-41" value="Create Transaction Queue" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="390" y="440" width="70" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-42" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-23" target="9_iYFjdAhvZHz7Ka0Q3p-41">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="540" y="510" as="sourcePoint" />
+            <mxPoint x="590" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-43" value="Add Song Information to queue" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="235" y="442.5" width="90" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-44" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-41" target="9_iYFjdAhvZHz7Ka0Q3p-43">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="360" y="610" as="sourcePoint" />
+            <mxPoint x="410" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-46" value="Album exists?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="520" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-47" value="Album Information entry screen" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="358" y="520" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-48" value="Add Album Information to queue" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="241" y="580" width="78" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-49" value="Super-Album exists?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="225" y="650" width="110" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-50" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-43" target="9_iYFjdAhvZHz7Ka0Q3p-46">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="410" y="610" as="sourcePoint" />
+            <mxPoint x="460" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-51" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#CC0000;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-46" target="9_iYFjdAhvZHz7Ka0Q3p-47">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="410" y="610" as="sourcePoint" />
+            <mxPoint x="460" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-52" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#00CC00;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-46" target="9_iYFjdAhvZHz7Ka0Q3p-48">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="410" y="610" as="sourcePoint" />
+            <mxPoint x="460" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-53" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-47" target="9_iYFjdAhvZHz7Ka0Q3p-48">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="430" y="720" as="sourcePoint" />
+            <mxPoint x="480" y="670" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-54" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-48" target="9_iYFjdAhvZHz7Ka0Q3p-49">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="410" y="610" as="sourcePoint" />
+            <mxPoint x="460" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-55" value="Super-Album Information entry screen" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="358.5" y="655" width="119.5" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-56" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#CC0000;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-49" target="9_iYFjdAhvZHz7Ka0Q3p-55">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="410" y="610" as="sourcePoint" />
+            <mxPoint x="460" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-57" value="Add Super-Album Information to queue" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="226" y="730" width="108" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-58" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-55" target="9_iYFjdAhvZHz7Ka0Q3p-57">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="410" y="680" as="sourcePoint" />
+            <mxPoint x="460" y="630" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-59" value="Add tag information &amp;amp; audio data to CRC data structure" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="365" y="802.5" width="120" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-61" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#00CC00;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-49" target="9_iYFjdAhvZHz7Ka0Q3p-57">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="230" y="840" as="sourcePoint" />
+            <mxPoint x="280" y="790" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-62" value="Confirm &amp;amp; commit changes in queue" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="810" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-63" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-57" target="9_iYFjdAhvZHz7Ka0Q3p-62">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="150" y="860" as="sourcePoint" />
+            <mxPoint x="200" y="810" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-64" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-62" target="9_iYFjdAhvZHz7Ka0Q3p-59">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="110" y="990" as="sourcePoint" />
+            <mxPoint x="160" y="940" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-67" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#00CC00;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-28" target="9_iYFjdAhvZHz7Ka0Q3p-41">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="570" y="540" as="sourcePoint" />
+            <mxPoint x="620" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-68" value="More files to process?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="369.5" y="880" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-69" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-59" target="9_iYFjdAhvZHz7Ka0Q3p-68">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="330" y="790" as="sourcePoint" />
+            <mxPoint x="380" y="740" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-70" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#00CC00;" edge="1" parent="1" source="9_iYFjdAhvZHz7Ka0Q3p-68" target="9_iYFjdAhvZHz7Ka0Q3p-11">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="330" y="790" as="sourcePoint" />
+            <mxPoint x="380" y="740" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="170" y="910" />
+              <mxPoint x="170" y="190" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9_iYFjdAhvZHz7Ka0Q3p-72" value="Save CRC data structure to file" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="515" y="890" width="100" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
