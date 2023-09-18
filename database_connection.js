@@ -1,5 +1,7 @@
 var mysql = require('mysql2');
 
+const express = require('express');
+
 let username = "IntrixTheName";
 let pwd = prompt("Enter MySQL password for " + username);
 
