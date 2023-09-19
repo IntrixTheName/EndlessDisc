@@ -25,3 +25,11 @@ Any additional information about the project that I'm using ofr personal notes i
   - Image ID Link
 - Super-Album Level
   - Super-Album.Name
+
+## Style - RGB Colors
+
+There are three colors used in the scheme of the app. The RGB values are:
+
+- Red: \#dc463b (220, 70, 59)
+- Orange: \#f1993f (241, 153, 63)
+- Blue: \#48a1a9 (72, 161, 169)

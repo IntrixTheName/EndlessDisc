@@ -1,0 +1,84 @@
+:root {
+    /* Project Colors */
+    --primary1: #073242;
+    --primary1_bkgd: #07324288;
+
+    --primary2: #248188;
+    --primary2_bkgd: #24818888;
+
+    --accent1: #CC8A1C;
+    --accent1_bkgd: #CC8A1C88;
+
+    --accent2: #99C1C0;
+    --accent2_bkgd: #99C1C088;
+}
+@font-face {font-family: MontserratBold; src: url('resources/fonts/MontserratBold-DOWZd.ttf');}
+
+body {
+    background-image: url("resources/logo-notext.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--primary2_bkgd);
+    font-family: MontserratBold;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.container {
+    background-color: var(--accent2_bkgd);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: center;
+}
+.button {
+    font-family: MontserratBold;
+    width: 75%;
+    color: var(--primary1);
+}
+
+select {
+    font-family: MontserratBold;
+    text-align: center;
+    width: 75%;
+    color: var(--primary1);
+}
+.options {
+    font-size: 40px;
+}
+.option {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.option:hover {
+    background-color: #e0e0e0;
+}
+.selected {
+    background-color: #3498db;
+    color: #fff;
+}
+.selected:hover {
+    background-color: #3498db;
+}
+
+h1 {
+    opacity: 1;
+    color: var(--primary1);
+}
+
+p {
+    opacity: 1;
+    color: #48a1a9;
+}
+
+a {
+    opacity: 1;
+    color: #48a1a9;
+}

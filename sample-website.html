@@ -2,32 +2,23 @@
 <html>
 
     <head>
+        <!--Boiler plate code, loading & linking resources-->
         <meta charset=utf-8>
         <title>Music Library Manager</title>
-        <script type="text/javascript" src="./web_server_link.js"></script>
+        <link rel="icon" type="image/x-icon" href="/resources/favicon.ico">
+        <link rel="stylesheet" href="style.css">
+        <script type="text/javascript" src="./web_server_link.js" type="module"></script>
     </head>
 
-    <body>
-        <h1>User Selection</h1>
-        Username: <input type="text" id="username"><br>
-        <br>
-        <button onclick="display_username()">Submit</button><br>
-        <p id="print_username"></p>
-        <button onclick="TestConnection()">Test Connection</button><br>
-        <p id="response"></p>
-
-        <!--
-        <script>
-            function display_username() {
-                var name = document.getElementById('username').value;
-                document.getElementById('print_username').innerHTML = "Hello " + name;
-            }
-
-            function connection_test() {
-                TestConnection();
-            }
-        </script>
-        -->
-        
+    <body onload="Database_GetUsers()"> <!--Gets users from database on loading-->
+        <div class="container">
+            <h1>User Selection</h1>
+            <select name="username" id="username"></select>
+            <br>
+            <button class="button">Submit</button><br>
+            <button onclick="TestConnection()">Test Connection</button><br>
+            <p id="response"></p>
+        </div>
     </body>
+
 </html>

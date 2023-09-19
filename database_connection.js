@@ -9,6 +9,7 @@ const path = require('path');
 
 app.use(cors())
 app.use(bodyParser.json())
+app.use(express.static(__dirname));
 
 
 
@@ -39,6 +40,23 @@ app.get('/connection-test', (routeRequest, routeResult) => {
 app.get('/', (routeRequest, routeResult) => {
     routeResult.sendFile(path.join(__dirname, main_file));
 });
+
+app.get('/get-users', (routeRequest, routeResult) => {
+    console.log("Reading users from database");
+    con.connect(function(err) {
+        if (err) throw err;
+        console.log("Connected...");
+
+        let query = "SELECT name FROM user;";
+        console.log(query);
+
+        con.query(query, function(err, queryResult, fields) {
+            if (err) throw err;
+            console.log(queryResult);
+            routeResult.json(queryResult);
+        })
+    })
+})
 
 app.get('/login', (routeRequest, routeResult) => {
 

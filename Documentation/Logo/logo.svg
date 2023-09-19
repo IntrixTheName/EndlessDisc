@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   sodipodi:docname="logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.65134574"
+     inkscape:cx="428.34394"
+     inkscape:cy="520.46092"
+     inkscape:window-width="1366"
+     inkscape:window-height="697"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:type="star"
+       style="fill:none;stroke:#073242;stroke-width:10;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1"
+       id="path348"
+       inkscape:flatsided="true"
+       sodipodi:sides="6"
+       sodipodi:cx="105.41489"
+       sodipodi:cy="123.22341"
+       sodipodi:r1="71.393692"
+       sodipodi:r2="61.828754"
+       sodipodi:arg1="1.0471976"
+       sodipodi:arg2="1.5707963"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 141.11173,185.05216 -71.393693,0 -35.696843,-61.82875 35.696849,-61.828751 71.393697,3e-6 35.69684,61.828758 z"
+       inkscape:transform-center-x="1.3099681e-06"
+       inkscape:transform-center-y="-1.5560395e-06" />
+    <path
+       sodipodi:type="star"
+       style="fill:none;stroke:#248188;stroke-width:11.0501;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1"
+       id="path956"
+       inkscape:flatsided="true"
+       sodipodi:sides="6"
+       sodipodi:cx="109.14893"
+       sodipodi:cy="145.05319"
+       sodipodi:r1="58.792534"
+       sodipodi:r2="50.915829"
+       sodipodi:arg1="1.0471976"
+       sodipodi:arg2="1.5707963"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 138.5452,195.96902 -58.792536,0 -29.396264,-50.91583 29.396269,-50.915827 58.792531,3e-6 29.39627,50.915834 z"
+       inkscape:transform-center-x="1.6760776e-06"
+       inkscape:transform-center-y="-2.5541664e-06"
+       transform="matrix(0.90496734,0,0,0.90496734,6.9125402,-7.8560788)" />
+    <path
+       style="fill:none;stroke:#cc8a1c;stroke-width:10;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+       d="M 176.51616,61.401329 132.69419,137.30298"
+       id="path1067" />
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:19.7556px;line-height:1;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';text-align:center;text-anchor:middle;fill:none;stroke:#dc463b;stroke-width:1;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+       x="104.57822"
+       y="216.31718"
+       id="text3230"><tspan
+         sodipodi:role="line"
+         id="tspan3228"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:22.5778px;font-family:Montserrat;-inkscape-font-specification:'Montserrat Bold';fill:#cc8a1c;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none"
+         x="104.57822"
+         y="216.31718">Endless Disc</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12.7px;font-family:Montserrat;-inkscape-font-specification:'Montserrat Bold';fill:#248188;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none"
+         x="104.57822"
+         y="236.52028"
+         id="tspan3693">Music Library Manager</tspan></text>
+  </g>
+</svg>
