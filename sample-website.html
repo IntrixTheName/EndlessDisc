@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
+
     <head>
+        <meta charset=utf-8>
         <title>Music Library Manager</title>
+        <script type="text/javascript" src="./web_server_link.js"></script>
     </head>
 
     <body>
@@ -10,12 +13,21 @@
         <br>
         <button onclick="display_username()">Submit</button><br>
         <p id="print_username"></p>
+        <button onclick="TestConnection()">Test Connection</button><br>
+        <p id="response"></p>
 
+        <!--
         <script>
             function display_username() {
                 var name = document.getElementById('username').value;
-                document.getElementById("print_username").innerHTML = "Hello " + name;
+                document.getElementById('print_username').innerHTML = "Hello " + name;
+            }
+
+            function connection_test() {
+                TestConnection();
             }
         </script>
+        -->
+        
     </body>
 </html>

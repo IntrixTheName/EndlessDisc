@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+var mysql = require('mysql2');
 
 const app = express();
 const path = require('path');
@@ -9,18 +10,17 @@ const path = require('path');
 app.use(cors())
 app.use(bodyParser.json())
 
-var mysql = require('mysql2');
 
 
-
+let main_file = "sample-website.html";
 let username = "IntrixTheName";
-let pwd = prompt("Enter MySQL password for " + username);
+let pwd = "Foxtrot492";
 
 var con = mysql.createConnection({
     host: "localhost",
     user: username,
     password: pwd,
-    database: "music-library"
+    database: "music_library"
 });
 
 con.connect(function(err) {
@@ -28,16 +28,16 @@ con.connect(function(err) {
     console.log("Connected to database");
 });
 
-var url = require('url');
+var url = require('url'); //Why is this line here?
 
 app.get('/connection-test', (routeRequest, routeResult) => {
     routeResult.json({
-      message: 'Connected to database_connection.js'
+      message: 'database_connection.js responded'
     });
 })
 
 app.get('/', (routeRequest, routeResult) => {
-    routeResult.sendFile(path.join(__dirname, '/user-selection.html'))
+    routeResult.sendFile(path.join(__dirname, main_file));
 });
 
 app.get('/login', (routeRequest, routeResult) => {
