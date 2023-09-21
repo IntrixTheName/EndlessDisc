@@ -68,17 +68,7 @@ select {
     background-color: #3498db;
 }
 
-h1 {
+h1, p, a {
     opacity: 1;
     color: var(--primary1);
-}
-
-p {
-    opacity: 1;
-    color: #48a1a9;
-}
-
-a {
-    opacity: 1;
-    color: #48a1a9;
 }
