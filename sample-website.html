@@ -2,21 +2,22 @@
 <html>
 
     <head>
-        <!--Boiler plate code, loading & linking resources-->
-        <meta charset=utf-8>
+        <!-- Boiler plate code, loading & linking resources -->
+        <meta charset=utf-8> <!-- Unicode -->
         <title>Music Library Manager</title>
-        <link rel="icon" type="image/x-icon" href="/resources/favicon.ico">
-        <link rel="stylesheet" href="style.css">
-        <script type="text/javascript" src="./web_server_link.js" type="module"></script>
+        <link rel="icon" type="image/x-icon" href="/resources/favicon.ico"> <!-- Icon in the tab -->
+        <link rel="stylesheet" href="style.css"> <!-- CSS styling -->
+        <script type="text/javascript" src="./web_server_link.js" type="module"></script> <!-- Web server file -->
     </head>
 
-    <body onload="Database_GetUsers()"> <!--Gets users from database on loading-->
+    <body onload="Database_GetUsers()"> <!-- Gets users from database on loading -->
         <div class="container">
             <h1>User Selection</h1>
+            <!-- Select element for the dropdown menu -->
             <select name="username" id="username"></select>
             <br>
             <button class="button">Submit</button><br>
-            <button onclick="TestConnection()">Test Connection</button><br>
+            <button onclick="TestConnection()">Test Connection</button><br> <!-- Line for debug testing, used to determine if web server talks to database server -->
             <p id="response"></p>
         </div>
     </body>
