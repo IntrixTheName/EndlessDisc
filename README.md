@@ -1,5 +1,5 @@
-# Music-Library-Manager
-A full-stack tool for managing a music library and tailoring the library to individual user's needs
+# Endless Disc - Music Library Manager
+A full-stack tool using MySQL & NodeJS for managing a music library and tailoring the library to individual user's needs
 
 ## Project Vision
 
@@ -7,7 +7,7 @@ This project is intended to alleviate a problem present in the current method us
 
 ## Project Overview
 
-This project will consist of a front-end webpage where users can add, modify, and remove information from a database. THe database will contain all information about the tracks included with the music library. There will be an undecided (at time of last update) procedure for assigning tags to Mp3 files and delivering a custom-tailored subset of the library to the user.
+This project will consist of a front-end webpage where users can add, modify, and remove information from a database. The database will contain all information about the tracks included with the music library. There will be an undecided (at time of last update) procedure for assigning tags to Mp3 files and delivering a custom-tailored subset of the library to the user.
 
 ## Resources
 
