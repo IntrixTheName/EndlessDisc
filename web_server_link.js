@@ -23,6 +23,7 @@ function Database_GetUsers() {
     console.log("reading users from database");
     fetch("//localhost:2492/get-users")
     .then((response) => {
+        //Catch errors here
         if(!response.ok) {
             throw new Error("HTTP error ${response.status}");
         }
@@ -30,12 +31,12 @@ function Database_GetUsers() {
     })
     .then((result) => {
         console.log("Query results, users: " + result);
-        let names = JSON.parse(result); //Express returns a string-serialized version, so JSON.parse converts it back into a JSON object
+        let names = JSON.parse(result); //Express returns a serialized value (string literal), so JSON.parse converts it back into a JSON object
         for(let i in names) {
             console.log(names[i]);
-            let element = document.createElement("option"); //Create <option></option>
-            element.textContent = names[i].name; //<option>names[i]</option>   Visible text
-            element.value = names[i].name; //<option value="names[i]">names[i]</option>   For identifying individual elements later
+            let element = document.createElement("option"); //<option></option>   Creates element
+            element.textContent = names[i].name; //<option>names[i]</option>   Adds visible text
+            element.value = names[i].name; //<option value="names[i]">names[i]</option>   ID for identifying individual elements later
             document.getElementById("username").appendChild(element); //Push to HTML file
         }
     })
