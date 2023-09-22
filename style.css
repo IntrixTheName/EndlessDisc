@@ -15,7 +15,7 @@
 @font-face {font-family: MontserratBold; src: url('resources/fonts/MontserratBold-DOWZd.ttf');}
 
 body {
-    background-image: url("resources/logo-notext.png");
+    background-image: url("resources/logo/logo-notext.png");
     background-repeat: no-repeat;
     background-position: center;
     background-color: var(--primary2_bkgd);
@@ -35,8 +35,25 @@ body {
     text-align: center;
 }
 .button {
-    font-family: MontserratBold;
+    /* Element Properties */
+    background-color: var(--accent2);
     width: 75%;
+    border: 2px solid var(--primary1);
+    transition-duration: 0.25s;
+
+    /* Text Properties */
+    font-family: MontserratBold;
+    color: var(--primary1);
+} .button:hover {
+    /* Element Properties */
+    background-color: var(--primary1);
+
+    /* Text Properties */
+    color: var(--accent2);
+}
+
+h1, p, a {
+    opacity: 1;
     color: var(--primary1);
 }
 
@@ -66,9 +83,4 @@ select {
 }
 .selected:hover {
     background-color: #3498db;
-}
-
-h1, p, a {
-    opacity: 1;
-    color: var(--primary1);
 }

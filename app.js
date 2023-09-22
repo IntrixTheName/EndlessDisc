@@ -2,7 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-var mysql = require('mysql2');
+let mysql = require('mysql2');
 
 const app = express();
 const path = require('path');
@@ -13,14 +13,13 @@ app.use(express.static(__dirname));
 
 
 
-let main_file = "sample-website.html";
-let username = "IntrixTheName";
-let pwd = "Foxtrot492";
+//Create initial connection to database
+let main_file = "webpages/user-selection.html";
 
-var con = mysql.createConnection({
+let con = mysql.createConnection({
     host: "localhost",
-    user: username,
-    password: pwd,
+    user: "guest", //Logging in as a guest account with only SELECT priveledges,
+    password: "password", //the user selection screen determines the actual login
     database: "music_library"
 });
 
@@ -30,7 +29,7 @@ con.connect(function(err) {
     console.log("Connected to database");
 });
 
-var url = require('url'); //Why is this line here?
+let url = require('url'); //Why is this line here?
 
 
 
@@ -70,9 +69,25 @@ app.get('/get-users', (routeRequest, routeResult) => {
 
 
 
-//For handling login? May be removed in the near future
-app.get('/login', (routeRequest, routeResult) => {
+//For handling login, changes user on the database connection
+app.get('/login/:usr/:pwd', (routeRequest, routeResult) => {
+    //Sort the information
+    let usr = routeRequest.params.usr;
+    let pwd = routeRequest.params.pwd;
 
+    console.log(`Setting "${usr}" as user`);
+
+    //Change the user
+    con.changeUser({
+        user: usr,
+        password: pwd
+    })
+
+    //Send back a message
+    routeResult.json({
+        message: "Active user changed successfully",
+        user: usr
+    })
 })
 
 

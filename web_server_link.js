@@ -24,9 +24,7 @@ function Database_GetUsers() {
     fetch("//localhost:2492/get-users")
     .then((response) => {
         //Catch errors here
-        if(!response.ok) {
-            throw new Error("HTTP error ${response.status}");
-        }
+        if(!response.ok) {throw new Error("HTTP error ${response.status}");}
         return response.text();
     })
     .then((result) => {
@@ -39,5 +37,21 @@ function Database_GetUsers() {
             element.value = names[i].name; //<option value="names[i]">names[i]</option>   ID for identifying individual elements later
             document.getElementById("username").appendChild(element); //Push to HTML file
         }
+    })
+}
+
+//Selects user to continue with the service
+function SetUser() {
+    usr = document.getElementById("username").value;
+    pwd = prompt("Password for " + usr + ":");
+    console.log("Setting " + usr + " as user");
+    fetch("//localhost:2492/login/" + usr + "/" + pwd)
+    .then((response) => {
+        if(!response.ok) {throw new Error("HTTP error $:response.status}");}
+        return response.text();
+    })
+    .then((result) => {
+        console.log("User successfully changed to " + JSON.parse(result).user);
+        document.getElementById("response").innerHTML
     })
 }
