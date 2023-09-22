@@ -24,6 +24,7 @@ var con = mysql.createConnection({
     database: "music_library"
 });
 
+//Initial test of connection
 con.connect(function(err) {
     if(err) throw err;
     console.log("Connected to database");
@@ -31,16 +32,25 @@ con.connect(function(err) {
 
 var url = require('url'); //Why is this line here?
 
+
+
+//Send the login screen (aka the screen when someone first connects)
+app.get('/', (routeRequest, routeResult) => {
+    routeResult.sendFile(path.join(__dirname, main_file));
+});
+
+
+
+//Manually check connection from web server to this file
 app.get('/connection-test', (routeRequest, routeResult) => {
     routeResult.json({
       message: 'database_connection.js responded'
     });
 })
 
-app.get('/', (routeRequest, routeResult) => {
-    routeResult.sendFile(path.join(__dirname, main_file));
-});
 
+
+//Retreive all users from the database (used to populate dropdown on login screen)
 app.get('/get-users', (routeRequest, routeResult) => {
     console.log("Reading users from database");
     con.connect(function(err) {
@@ -58,6 +68,9 @@ app.get('/get-users', (routeRequest, routeResult) => {
     })
 })
 
+
+
+//For handling login? May be removed in the near future
 app.get('/login', (routeRequest, routeResult) => {
 
 })
