@@ -7,7 +7,7 @@
         <title>Music Library Manager</title>
         <link rel="icon" type="image/x-icon" href="/resources/favicon.ico"> <!-- Icon in the tab -->
         <link rel="stylesheet" href="style.css"> <!-- CSS styling -->
-        <script type="text/javascript" src="./web_server_link.js" type="module"></script> <!-- Web server file -->
+        <script type="text/javascript" src="webpages/user-selection.js" type="module"></script> <!-- Web server file -->
     </head>
 
     <body onload="Database_GetUsers()"> <!-- Gets users from database on loading -->
@@ -16,7 +16,7 @@
             <!-- Select element for the dropdown menu -->
             <select name="username" id="username"></select>
             <br>
-            <button class="button" onclick="SetUser()">Login</button><br>
+            <button class="button" onclick="Login()">Login</button><br>
             <button class="button" onclick="TestConnection()">Test Connection</button><br> <!-- Line for debug testing, used to determine if web server talks to database server -->
             <p id="response"></p>
         </div>

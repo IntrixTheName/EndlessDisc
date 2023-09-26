@@ -38,6 +38,10 @@ app.get('/', (routeRequest, routeResult) => {
     routeResult.sendFile(path.join(__dirname, main_file));
 });
 
+app.get('/export-preset', (routeRequest, routeResult) => {
+    routeResult.sendFile(path.join(__dirname, "webpages/export-preset.html"));
+});
+
 
 
 //Manually check connection from web server to this file
@@ -89,6 +93,27 @@ app.get('/login/:usr/:pwd', (routeRequest, routeResult) => {
         user: usr
     })
 })
+
+
+
+//For getting config/presets from database
+app.get('/get-export-settings', (routeRequest, routeResult) => {
+    console.log("Reading export settings from database");
+    con.connect(function(err) {
+        if (err) throw err;
+        console.log("Connected...");
+
+        let query = "SELECT * from config";
+        console.log(query);
+
+        con.query(query, function(err, queryResult, fields) {
+            if (err) throw err;
+            console.log(queryResult);
+            routeResult.json(queryResult);
+        })
+    })
+})
+
 
 
 //Start the server and listen
