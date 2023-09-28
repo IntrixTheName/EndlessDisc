@@ -1,7 +1,7 @@
 # Ignore the .idea directory created by VSC & node_modules from installation
 .idea/
 
-node_modules
+node_modules/
 
 # Auto-created file
 package-lock.json
