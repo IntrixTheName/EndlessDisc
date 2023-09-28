@@ -6,14 +6,36 @@
         <title>Music Library Manager</title>
         <link rel="icon" type="image/x-icon" href="/resources/favicon.ico"> <!-- Icon in the tab -->
         <link rel="stylesheet" href="style.css"> <!-- CSS styling -->
-        <script type="text/javascript" src="./export-preset.js.js" type="module"></script> <!-- Web server file -->
+        <script type="text/javascript" src="./export-preset.js" type="module"></script> <!-- Web server file -->
     </head>
 
     <body onload="Database_GetExportSettings()">
-        <h1>Config</h1>
-        <select name="config" id="config"></select>
+        <fieldset>
+            <legend>File Structure & Tags</legend>
+            <h2>Pre-Defined Configs</h2>
+            <select name="config" id="config"></select>
+            <br>
+            <h2>Or Define Another</h2>
+            <label for="file_structure">File Structure: </label>
+            <input type="text" id="file_structure" name="file_structure">
+            <br>
+            <label for="tag_application">Tag Scheme: </label>
+            <input type="text" id="tag_application" name="tag_application">
+        </fieldset>
+        
         <br>
-        <h1>Preset</h1>
-        <select name="preset" id="preset"></select>
+
+        <fieldset>
+            <legend>Selecting Tracks</legend>
+            <h1>Define Filter Criteria</h1>
+            <select name="filter" id="filter"></select>
+            <br>
+            <h2>Or Select Albums Manually</h2>
+            <select name="albums" id="albums" multiple></select>
+        </fieldset>
+        
+        <br><br>
+
+        <input type="button" value="Export">
     </body>
 </html>

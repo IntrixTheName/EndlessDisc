@@ -6,9 +6,7 @@
 function TestConnection() {
     fetch("//localhost:2492/connection-test")
     .then((response) => {
-        if(!response.ok) {
-            throw new Error("HTTP error ${response.status}");
-        }
+        if(!response.ok) {throw new Error("HTTP error ${response.status}");}
         return response.json();
     })
     .then((result) => {
@@ -43,10 +41,12 @@ function Database_GetUsers() {
 
 //Selects user to continue with the service
 function Login() {
+    //Get username & prompt for password
     usr = document.getElementById("username").value;
     pwd = prompt("Password for " + usr + ":");
     console.log("Setting " + usr + " as user");
 
+    //Send route to app.js with login information (it's in plaintext, so replace this soon)
     fetch("//localhost:2492/login/" + usr + "/" + pwd)
 
     .then((response) => {
@@ -55,6 +55,7 @@ function Login() {
     })
 
     .then((result) => {
+        //app.js changes the database connection
         console.log("User successfully changed to " + result.user);
         document.getElementById("response").innerHTML = "User successfully changed to " + result.user;
     })
