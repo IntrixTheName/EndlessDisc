@@ -84,3 +84,14 @@ select {
 .selected:hover {
     background-color: #3498db;
 }
+
+
+table, th, td {
+    border: 1px solid var(--primary1);
+    border-collapse: collapse;
+    padding: 10px;
+}
+
+th, td {
+    background-color: var(--primary2_bkgd);
+}

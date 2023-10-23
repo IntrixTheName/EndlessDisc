@@ -13,13 +13,17 @@ app.use(express.static(__dirname));
 
 
 
-//Create initial connection to database
-let main_file = "webpages/user-selection.html";
+//Global variables to make modifications easier
+let usr = "IntrixTheName", pwd = "Foxtrot492";
+let main_file = "webpages/library-view.html";
 
+
+
+//Create initial connection to database
 let con = mysql.createConnection({
     host: "localhost",
-    user: "guest", //Logging in as a guest account with only SELECT priveledges,
-    password: "password", //the user selection screen determines the actual login
+    user: usr,
+    password: pwd,
     database: "music_library"
 });
 
@@ -104,6 +108,26 @@ app.get('/get-export-settings', (routeRequest, routeResult) => {
         console.log("Connected...");
 
         let query = "SELECT * from config";
+        console.log(query);
+
+        con.query(query, function(err, queryResult, fields) {
+            if (err) throw err;
+            console.log(queryResult);
+            routeResult.json(queryResult);
+        })
+    })
+})
+
+
+
+//Get song inforation from database
+app.get('/song-information', (routeRequest, routeResult) => {
+    console.log("Getting song information from database")
+    con.connect(function(err) {
+        if (err) throw err;
+        console.log("Connected...");
+
+        let query = "SELECT song_id, title, artist FROM song_info";
         console.log(query);
 
         con.query(query, function(err, queryResult, fields) {

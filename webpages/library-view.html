@@ -6,11 +6,22 @@
         <title>Music Library Manager</title>
         <link rel="icon" type="image/x-icon" href="/resources/favicon.ico"> <!-- Icon in the tab -->
         <link rel="stylesheet" href="style.css"> <!-- CSS styling -->
-        <script type="text/javascript" src="./library-view.js" type="module"></script> <!-- Web server file -->
+        <script type="text/javascript" src="webpages/library-view.js" type="module"></script> <!-- Web server file -->
     </head>
 
-    <body>
-        <h1>Music Library</h1>
-        
+    <body onload="Database_GetSongInfo()">
+        <div class="container">
+            <h1>Music Library</h1>
+            <hr><br>
+            <table id="library-table" >
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Artist</th>
+                </tr>
+
+                <!--Database_GetSongInfo() adds tracks here-->
+            </table>
+        </div>
     </body>
 </html>
