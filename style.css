@@ -34,6 +34,17 @@ body {
     padding: 20px;
     text-align: center;
 }
+#music-box {
+    display: flex;
+}
+#library {
+    float: left;
+    flex: 1;
+}
+#edit-pane {
+    float: right;
+    flex: 1;
+}
 .button {
     /* Element Properties */
     background-color: var(--accent2);
@@ -44,7 +55,8 @@ body {
     /* Text Properties */
     font-family: MontserratBold;
     color: var(--primary1);
-} .button:hover {
+}
+.button:hover {
     /* Element Properties */
     background-color: var(--primary1);
 
@@ -86,6 +98,10 @@ select {
 }
 
 
+
+
+
+
 table, th, td {
     border: 1px solid var(--primary1);
     border-collapse: collapse;
@@ -95,3 +111,6 @@ table, th, td {
 th, td {
     background-color: var(--primary2_bkgd);
 }
+
+
+

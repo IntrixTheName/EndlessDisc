@@ -6,7 +6,7 @@
 function TestConnection() {
     fetch("//localhost:2492/connection-test")
     .then((response) => {
-        if(!response.ok) {throw new Error("HTTP error ${response.status}");}
+        if(!response.ok) {throw new Error(`HTTP error ${response.status}`);}
         return response.json();
     })
     .then((result) => {
@@ -24,7 +24,7 @@ function Database_GetUsers() {
 
     .then((response) => {
         //Catch errors here
-        if(!response.ok) {throw new Error("HTTP error ${response.status}");}
+        if(!response.ok) {throw new Error(`HTTP error ${response.status}`);}
         return response.json();
     })
 
@@ -50,7 +50,7 @@ function Login() {
     fetch("//localhost:2492/login/" + usr + "/" + pwd)
 
     .then((response) => {
-        if(!response.ok) {throw new Error("HTTP error $:response.status}");}
+        if(!response.ok) {throw new Error(`HTTP error ${response.status}`);}
         return response.json();
     })
 

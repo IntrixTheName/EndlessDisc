@@ -9,19 +9,25 @@
         <script type="text/javascript" src="webpages/library-view.js" type="module"></script> <!-- Web server file -->
     </head>
 
-    <body onload="Database_GetSongInfo()">
+    <body onload="Database_GetAllSongInfo()">
         <div class="container">
             <h1>Music Library</h1>
             <hr><br>
-            <table id="library-table" >
-                <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Artist</th>
-                </tr>
 
-                <!--Database_GetSongInfo() adds tracks here-->
-            </table>
+            <div class="music-box">
+                <div class="library">
+                    <table id="library-table" >
+                        <!--Database_GetSongInfo() adds here-->
+                    </table>
+                </div>
+                
+                <div class="edit-pane">
+                    <form>
+                        <input type="text">
+                        <!--Populate song information here-->
+                    </form>
+                </div>
+            </div>
         </div>
     </body>
 </html>
