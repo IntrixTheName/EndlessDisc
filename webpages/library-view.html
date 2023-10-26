@@ -3,7 +3,7 @@
 
     <head>
         <meta charset=utf-8> <!-- Unicode -->
-        <title>Music Library Manager</title>
+        <title>Endless Disc</title>
         <link rel="icon" type="image/x-icon" href="/resources/favicon.ico"> <!-- Icon in the tab -->
         <link rel="stylesheet" href="style.css"> <!-- CSS styling -->
         <script type="text/javascript" src="webpages/library-view.js" type="module"></script> <!-- Web server file -->
@@ -11,20 +11,55 @@
 
     <body onload="Database_GetAllSongInfo()">
         <div class="container">
-            <h1>Music Library</h1>
+            <h1>Endless Disc - Music Library</h1>
             <hr><br>
 
             <div class="music-box">
-                <div class="library">
+                <div class="music-box-library">
                     <table id="library-table" >
                         <!--Database_GetSongInfo() adds here-->
                     </table>
                 </div>
                 
-                <div class="edit-pane">
-                    <form>
-                        <input type="text">
-                        <!--Populate song information here-->
+                <div class="music-box-editor">
+                    <form id="editor-form">
+                        <!--
+                        <label for="flarb">Flarb: </label><input type="text" id="flarb"><br>
+                        <label for="florb">Florb: </label><input type="text" id="florb"><br>
+                        <label for="flurk">Flurk: </label><input type="text" id="flurk"><br>
+                        -->
+                        
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title" required><br><br>
+        
+                        <label for="artist">Artist:</label>
+                        <input type="text" id="artist" name="artist" required><br><br>
+        
+                        <label for="year">Year:</label>
+                        <input type="number" id="year" name="year" max="2099"><br><br>
+        
+                        <label for="track_number">Track#:</label>
+                        <input type="number" id="track_number" name="track_number" min="0" size="5">
+        
+                        <label for="disc_number">Disc#:</label>
+                        <input type="number" id="disc_number" name="disc_number" min="1" size="5"><br><br>
+        
+                        <label for="grouping">Grouping:</label>
+                        <input type="text" id="grouping" name="grouping"><br><br>
+        
+                        <label for="comment">Comment:</label>
+                        <input type="text" id="comment" name="comment" ><br><br>
+        
+                        <label for="uploader">Uploader:</label>
+                        <input type="text" id="uploader" name="uploader"><br><br>
+        
+                        <label for="language">Language:</label>
+                        <input type="text" id="language" name="language"><br><br>
+        
+                        <label for="genre">Genre:</label>
+                        <input type="text" id="genre" name="genre"><br><br>
+        
+                        <input type="submit" value="Submit">
                     </form>
                 </div>
             </div>

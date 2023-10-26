@@ -60,5 +60,115 @@ function Database_GetSongInfo(record_id) {
     })
     .then((result) => {
         console.log(result);
+
+        result = result[0]; //Returns an array with json elements, just make it the json directly
+
+        let items = 
+            [["title", result.title],
+            ["artist", result.artist],
+            ["year", result.release_year],
+            ["track_number", result.track_num],
+            ["disc_number", result.disc_num],
+            ["grouping", result.grp],
+            ["comment", result.comment],
+            ["uploader", result.uploader],
+            ["language", result.language],
+            ["genre", result.genre]];
+
+        document.getElementById("editor-form").innerHTML = "";
+        let form = document.getElementById("editor-form");
+
+        //Rebuild the form with the new elements
+        let label = document.createElement("label");
+        let input = document.createElement("input");
+        label.innerText = "Title: ";
+        input.id = "title"; input.name = "title";
+        input.setAttribute("required",""); //input.setAttribute("value", result.title);
+        label.appendChild(input); form.appendChild(label);
+        form.appendChild(document.createElement("br"));
+        form.appendChild(document.createElement("br"));
+
+        label = document.createElement("label");
+        input = document.createElement("input");
+        label.innerText = "Artist: ";
+        input.id = "artist"; input.name = "artist";
+        input.setAttribute("required",""); //input.setAttribute("value", result.artist);
+        label.appendChild(input); form.appendChild(label);
+        form.appendChild(document.createElement("br"));
+        form.appendChild(document.createElement("br"));
+
+        label = document.createElement("label");
+        input = document.createElement("input");
+        label.innerText = "Year: ";
+        input.id = "year"; input.name = "year";
+        input.setAttribute("max","2099"); //input.setAttribute("value", result.release_year ? result.release_year : "");
+        label.appendChild(input); form.appendChild(label);
+        form.appendChild(document.createElement("br"));
+        form.appendChild(document.createElement("br"));
+
+        label = document.createElement("label");
+        input = document.createElement("input");
+        label.innerText = "Track#: ";
+        input.id = "track_num"; input.name = "track_num";
+        input.setAttribute("min","0"); input.setAttribute("size","5"); //input.setAttribute("value", result.release_year)
+        label.appendChild(input); form.appendChild(label);
+
+        label = document.createElement("label");
+        input = document.createElement("input");
+        label.innerText = "Disc#: ";
+        input.id = "Disc#"; input.name = "Disc#"; input.setAttribute("min","1"); input.setAttribute("size","5");
+        label.appendChild(input); form.appendChild(label);
+        form.appendChild(document.createElement("br"));
+        form.appendChild(document.createElement("br"));
+
+        label = document.createElement("label");
+        input = document.createElement("input");
+        label.innerText = "Grouping: ";
+        input.id = "grouping"; input.name = "grouping";
+        label.appendChild(input); form.appendChild(label);
+        form.appendChild(document.createElement("br"));
+        form.appendChild(document.createElement("br"));
+
+        label = document.createElement("label");
+        input = document.createElement("input");
+        label.innerText = "Comment: ";
+        input.id = "comment"; input.name = "comment";
+        label.appendChild(input); form.appendChild(label);
+        form.appendChild(document.createElement("br"));
+        form.appendChild(document.createElement("br"));
+
+        label = document.createElement("label");
+        input = document.createElement("input");
+        label.innerText = "Uploader: ";
+        input.id = "uploader"; input.name = "uploader";
+        label.appendChild(input); form.appendChild(label);
+        form.appendChild(document.createElement("br"));
+        form.appendChild(document.createElement("br"));
+        
+        label = document.createElement("label");
+        input = document.createElement("input");
+        label.innerText = "Language: ";
+        input.id = "language"; input.name = "language";
+        label.appendChild(input); form.appendChild(label);
+        form.appendChild(document.createElement("br"));
+        form.appendChild(document.createElement("br"));
+
+        label = document.createElement("label");
+        input = document.createElement("input");
+        label.innerText = "Genre: ";
+        input.id = "genre"; input.name = "genre";
+        label.appendChild(input); form.appendChild(label);
+        form.appendChild(document.createElement("br"));
+        form.appendChild(document.createElement("br"));
+        
+        let submit = document.createElement("input");
+        submit.setAttribute("type","submit"); submit.setAttribute("value","Submit");
+        form.appendChild(submit);
+
+        //Insert the new values from the retrieved information
+        for(let i in items) {
+            //document.getElementById(items[i][0]).setAttribute("value","");
+            if(items[i][1]) {document.getElementById(items[i][0]).setAttribute("value",items[i][1])}
+        }
     })
 }

@@ -19,6 +19,7 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     background-color: var(--primary2_bkgd);
+    color: var(--primary1);
     font-family: MontserratBold;
     margin: 0;
     padding: 0;
@@ -33,18 +34,25 @@ body {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     padding: 20px;
     text-align: center;
+    width: 75%;
 }
-#music-box {
-    display: flex;
+.music-box {
+    border: 3px #ffff;
+    padding: 20px;
 }
-#library {
+.music-box-library {
+    width: 50%;
     float: left;
-    flex: 1;
+    padding: 20px;
 }
-#edit-pane {
-    float: right;
-    flex: 1;
+.music-box-editor {
+    width: 30%;
+    float: left;
+    padding: 20px;
+    border: 1px solid var(--primary1);
+    border-collapse: collapse;
 }
+
 .button {
     /* Element Properties */
     background-color: var(--accent2);
@@ -99,16 +107,17 @@ select {
 
 
 
-
-
-
-table, th, td {
+table {
     border: 1px solid var(--primary1);
     border-collapse: collapse;
+    width: 100%;
     padding: 10px;
 }
 
 th, td {
+    border: 1px solid var(--primary1);
+    border-collapse: collapse;
+    padding: 10px;
     background-color: var(--primary2_bkgd);
 }
 
