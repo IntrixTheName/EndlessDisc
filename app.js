@@ -1,24 +1,22 @@
-//Setting up tools
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-let mysql = require('mysql2');
-//let zip = require('7zip')//['7z']; //For zipping the files before delivery
+//SETUP----------------------------------------------------------------------------------------------------------------
 
+//Require tools
+const express = require('express'), cors = require('cors'), bodyParser = require('body-parser'), path = require('path');
+let mysql = require('mysql2'), url = require('url'); //zip = require('7zip')//['7z'];
+
+//Setup express
 const app = express();
-const path = require('path');
+app.use(cors()); app.use(bodyParser.json()); app.use(express.static(__dirname));
 
-app.use(cors())
-app.use(bodyParser.json())
-app.use(express.static(__dirname));
-
-
+/* app.use(function(req, res, next) { //Configuring CORS to work properly w/ put & post
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+    next();
+}) */
 
 //Global variables to make modifications easier
-let usr = "IntrixTheName", pwd = "Foxtrot492";
-let main_file = "webpages/library-view.html";
-
-
+let usr = "IntrixTheName", pwd = "Foxtrot492"; //Bad practice to put pwd in plaintext, but will be dealt with in a later version
+let main_file = "webpages/library-view.html"; //Which page is displayed (since multi-page is giving me issues)
 
 //Create initial connection to database
 let con = mysql.createConnection({
@@ -34,91 +32,30 @@ con.connect(function(err) {
     console.log("Connected to database");
 });
 
-let url = require('url');
 
 
+//ROUTE REQUESTS-------------------------------------------------------------------------------------------------------
+
+//UTILITY----------------------------------------------------------------------
 
 //Send the main screen
-app.get('/', (routeRequest, routeResult) => {
-    routeResult.sendFile(path.join(__dirname, main_file));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, main_file));
 });
 
-
-
 //Manually check connection from web server to this file
-app.get('/connection-test', (routeRequest, routeResult) => {
-    routeResult.json({
-      message: 'database_connection.js responded'
+app.get('/connection-test', (req, res) => {
+    res.json({
+      message: 'app.js responded'
     });
 })
 
 
 
-//Retreive all users from the database (used to populate dropdown on login screen)
-app.get('/get-users', (routeRequest, routeResult) => {
-    console.log("Reading users from database");
-    con.connect(function(err) {
-        if (err) throw err;
-        console.log("Connected...");
+//GET--------------------------------------------------------------------------
 
-        let query = "SELECT name FROM user;";
-        console.log(query);
-
-        con.query(query, function(err, queryResult, fields) {
-            if (err) throw err;
-            console.log(queryResult);
-            routeResult.json(queryResult);
-        })
-    })
-})
-
-
-
-//For handling login, changes user on the database connection
-app.get('/login/:usr/:pwd', (routeRequest, routeResult) => {
-    //Sort the information
-    let usr = routeRequest.params.usr;
-    let pwd = routeRequest.params.pwd;
-
-    console.log(`Setting "${usr}" as user`);
-
-    //Change the user
-    con.changeUser({
-        user: usr,
-        password: pwd
-    })
-
-    //Send back a message
-    routeResult.json({
-        message: "Active user changed successfully",
-        user: usr
-    })
-})
-
-
-
-//For getting config/presets from database
-app.get('/get-export-settings', (routeRequest, routeResult) => {
-    console.log("Reading export settings from database");
-    con.connect(function(err) {
-        if (err) throw err;
-        console.log("Connected...");
-
-        let query = "SELECT * from config";
-        console.log(query);
-
-        con.query(query, function(err, queryResult, fields) {
-            if (err) throw err;
-            console.log(queryResult);
-            routeResult.json(queryResult);
-        })
-    })
-})
-
-
-
-//Get song inforation from database
-app.get('/song-information', (routeRequest, routeResult) => {
+//Get limited inforation for all songs (library window)
+app.get('/get/song-information', (req, res) => {
     console.log("Getting song information from database")
     con.connect(function(err) {
         if (err) throw err;
@@ -130,90 +67,207 @@ app.get('/song-information', (routeRequest, routeResult) => {
         con.query(query, function(err, queryResult, fields) {
             if (err) throw err;
             console.log(queryResult);
-            routeResult.json(queryResult);
+            res.json(queryResult);
         })
     })
 })
 
 //Get all information for a specific song (editor window)
-app.get('/song-information/:id', (routeRequest, routeResult) => {
-    console.log(`Getting song info for ID #${routeRequest.params.id}`);
+app.get('/get/song-information/:id', (req, res) => {
+    console.log(`Getting song info for ID #${req.params.id}`);
     con.connect(function(err) {
         if (err) throw err;
         console.log("Connected...");
 
-        let query = `SELECT * from song_info WHERE song_id = ${routeRequest.params.id}`;
+        let query = `SELECT * from song_info WHERE song_id = ${req.params.id}`;
         console.log(query);
 
         con.query(query, function(err, queryResult, fields) {
             if (err) throw err;
             console.log(queryResult);
-            routeResult.json(queryResult);
+            res.json(queryResult);
         })
     })
 })
 
 
 
-/* //Start transaction on database
-app.post('/upload',(routeRequest, routeResult) => {
+//PUT--------------------------------------------------------------------------
+
+//Update record in database
+app.put('/put/:id', (req, res) => {
+    console.log(req.params.id);
+    console.log("Inside of /put/");
+    con.connect(function(err) {
+        if(err) throw err;
+        console.log("Connected...");
+
+        const date = new Date();
+        let date_string = date.toISOString().split("T")[0]; //yyyy-mm-dd string for database
+
+        console.log(req.body);
+        console.log(date_string);
+
+        let info = req.body;
+        let columns =
+            [["title", info.title],
+            ["artist", info.artist],
+            ["release_year", info.year],
+            ["track_num", info.track_num],
+            ["disc_num", info.disc_num],
+            ["grp", info.grouping],
+            ["comment", info.comment],
+            ["uploader", info.uploader],
+            ["language", info.language],
+            ["genre", info.genre],
+            ["last_modified", date_string]] //yyyy-mm-dd string for database
+
+            let query = "UPDATE song_info SET "
+
+            for(let i in columns) { //Add each column to update
+                if(columns[i][1]) {query += columns[i][0] + " = \"" + columns[i][1] + "\", ";}
+            }
+
+            query = query.substring(0, query.length - 2); //Trim comma from end
+            query += ` WHERE song_id = ${req.params.id};`; //Specify WHERE condition
+
+            console.log(query);
+            
+            con.query(query, function(err, result) {
+                if (err) throw err;
+                console.log(result);
+                res.json({
+                    message: 'Updated record '
+                  });
+            })
+    })
+})
+
+
+
+//POST-------------------------------------------------------------------------
+
+//Upload new record to database
+app.post('/post/upload-song', (req, res) => {
     con.connect(function(err) {
         if (err) throw err;
         console.log("Connected...");
 
-        con.beginTransaction()
+        //con.beginTransaction()
 
-        let info = routeRequest.body;
-        let columns = 
-            ["title",
-            "artist",
-            "release_year",
-            "track_num",
-            "disc_num",
-            "grp",
-            "comment",
-            "uploader",
-            "language",
-            "genre",
-            "last_modified"];
+        const date = new Date();
+        let date_string = date.toISOString().split("T")[0]; //yyyy-mm-dd string for database
 
-        let entry = [];
+        let info = req.body;
+        let columns =
+            [["title", info.title],
+            ["artist", info.artist],
+            ["release_year", info.year],
+            ["track_num", info.track_num],
+            ["disc_num", info.disc_num],
+            ["grp", info.grouping],
+            ["comment", info.comment],
+            ["uploader", info.uploader],
+            ["language", info.language],
+            ["genre", info.genre],
+            ["last_modified", date_string]] //yyyy-mm-dd string for database
 
-        if(info.title) {entry[0] = info.title;}
-        if(info.artist) {entry[1] = info.artist;}
-        if(info.year) {entry[2] = info.year;}
-        if(info.track) {entry[3] = info.track;}
-        if(info.disc) {entry[4] = info.disc;}
-        if(info.grouping) {entry[5] = info.grouping;}
-        if(info.comment) {entry[6] = info.comment;}
-        if(info.uploader) {entry[7] = info.uploader;}
-        if(info.language) {entry[8] = info.language;}
-        if(info.genre) {entry[9] = info.genre;}
-        if(info.last_modified) {entry[10] = info.last_modified;}
-
-        //Format the insert `Insert into <table> (x, y, z) Values (a,b,c)`
+        //Format the insert `INSERT INTO <table> (x, y, z) VALUES (a,b,c)`
         let query = "INSERT INTO song_upload (";
         for(let i in columns) {
-            if(entry[i]) {query.concat(columns[i] + ",");}
+            if(entry[i][1]) {query += entry[i][0] + ",";}
         }
-        query = query.substring(0,query.length - 2); //Remove last comma
+        query = query.substring(0, query.length - 2); //Remove last comma
         query.concat(") VALUES (");
         for(let i in columns) {
-            if(entry[i]) {query.concat("\"" + entry[i] + ",\"")}
+            if(entry[i][1]) {query += "\"" + entry[i] + "\",";}
         }
-        query = query.substring(0,query.length - 2); //Remove last column
-        query.concat(")");
+        query = query.substring(0,query.length - 2); //Remove last comma
+        query += ")";
 
-        con.query(query,function(err,queryResults,fields) {
+        con.query(query,function(err,result,) {
             if (err) throw err;
+            console.log("Song written to database");
+            routeResult.json({
+                message: 'Inserted record ' + result.insertId
+              });
         })
     })
 })
- */
 
 
+
+//START SERVER---------------------------------------------------------------------------------------------------------
 
 //Start the server and listen
 app.listen(2492, () => {
     console.log('Server is listening on port 2492');
 });
+
+
+
+//UNUSED ROUTES--------------------------------------------------------------------------------------------------------
+
+/*
+
+//Retreive all users from the database (used to populate dropdown on login screen)
+app.get('/get/users', (req, res) => {
+    console.log("Reading users from database");
+    con.connect(function(err) {
+        if (err) throw err;
+        console.log("Connected...");
+
+        let query = "SELECT name FROM user;";
+        console.log(query);
+
+        con.query(query, function(err, queryResult, fields) {
+            if (err) throw err;
+            console.log(queryResult);
+            res.json(queryResult);
+        })
+    })
+})
+
+
+
+
+//For handling login, changes user on the database connection
+app.get('/login/:usr/:pwd', (req, res) => {
+    //Sort the information
+    let usr = req.params.usr;
+    let pwd = req.params.pwd;
+
+    console.log(`Setting "${usr}" as user`);
+
+    //Change the user
+    con.changeUser({
+        user: usr,
+        password: pwd
+    })
+
+    //Send back a message
+    res.json({
+        message: "Active user changed successfully",
+        user: usr
+    })
+})
+
+//For getting config/presets from database
+app.get('/get/export-settings', (req, res) => {
+    console.log("Reading export settings from database");
+    con.connect(function(err) {
+        if (err) throw err;
+        console.log("Connected...");
+
+        let query = "SELECT * from config";
+        console.log(query);
+
+        con.query(query, function(err, queryResult, fields) {
+            if (err) throw err;
+            console.log(queryResult);
+            res.json(queryResult);
+        })
+    })
+})
+
+*/

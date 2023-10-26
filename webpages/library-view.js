@@ -1,7 +1,8 @@
+//const { response } = require("express");
 
 //Retrieve song information from database for use in the library table
 function Database_GetAllSongInfo() {
-    fetch("//localhost:2492/song-information")
+    fetch("//localhost:2492/get/song-information")
     .then((response) => {
         if(!response.ok) {throw new Error(`HTTP error ${response.status}`);}
         return response.json();
@@ -53,7 +54,8 @@ function Database_GetAllSongInfo() {
 
 //Get all information for a specific song
 function Database_GetSongInfo(record_id) {
-    fetch(`//localhost:2492/song-information/${record_id}`)
+    console.log(`Getting specific song info with ${record_id}`);
+    fetch(`//localhost:2492/get/song-information/${record_id}`)
     .then((response) => {
         if(!response.ok) {throw new Error(`HTTP error ${response.status}`);}
         return response.json();
@@ -116,7 +118,7 @@ function Database_GetSongInfo(record_id) {
         label = document.createElement("label");
         input = document.createElement("input");
         label.innerText = "Disc#: ";
-        input.id = "Disc#"; input.name = "Disc#"; input.setAttribute("min","1"); input.setAttribute("size","5");
+        input.id = "disc_num"; input.name = "disc_num"; input.setAttribute("min","1"); input.setAttribute("size","5");
         label.appendChild(input); form.appendChild(label);
         form.appendChild(document.createElement("br"));
         form.appendChild(document.createElement("br"));
@@ -162,7 +164,8 @@ function Database_GetSongInfo(record_id) {
         form.appendChild(document.createElement("br"));
         
         let submit = document.createElement("input");
-        submit.setAttribute("type","submit"); submit.setAttribute("value","Submit");
+        submit.setAttribute("type","button"); submit.setAttribute("value","Submit");
+        submit.setAttribute("onclick",`Database_UpdateSong(${record_id})`);
         form.appendChild(submit);
 
         //Insert the new values from the retrieved information
@@ -171,4 +174,43 @@ function Database_GetSongInfo(record_id) {
             if(items[i][1]) {document.getElementById(items[i][0]).setAttribute("value",items[i][1])}
         }
     })
+}
+
+
+
+//Update a row from the database
+function Database_UpdateSong(record_id) {
+    console.log(`writing to database with ${record_id}`)
+
+    var song = {
+        title: document.getElementById("title").value,
+        artist: document.getElementById("artist").value,
+        year: document.getElementById("year").value,
+        track_num: document.getElementById("track_num").value,
+        disc_num: document.getElementById("disc_num").value,
+        grouping: document.getElementById("grouping").value,
+        comment: document.getElementById("comment").value,
+        uploader: document.getElementById("uploader").value,
+        language: document.getElementById("language").value,
+        genre: document.getElementById("genre").value,
+    }
+
+    console.log(song);
+
+    var requestInfo = { 
+        method: "PUT",
+        body: JSON.stringify(song),
+        headers: { 'Content-Type': 'application/json' }
+    }
+
+    fetch(`//localhost:2492/put/${record_id}`, requestInfo)
+    .then((response) => {
+        if(!response.ok) {throw new Error(`HTTP error ${response.status}`);}
+        return response.text()
+    })
+    .then((result) => {
+        console.log(result);
+        Database_GetAllSongInfo();
+    })
+    .catch((error) => console.log('record id ' + record_id + ' trouble - ' + error));
 }
