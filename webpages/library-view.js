@@ -2,7 +2,7 @@
 
 //Retrieve song information from database for use in the library table
 function Database_GetAllSongInfo() {
-    fetch("//localhost:2492/get/song-information")
+    fetch("/get/song-information")
     .then((response) => {
         if(!response.ok) {throw new Error(`HTTP error ${response.status}`);}
         return response.json();
@@ -55,7 +55,7 @@ function Database_GetAllSongInfo() {
 //Get all information for a specific song
 function Database_GetSongInfo(record_id) {
     console.log(`Getting specific song info with ${record_id}`);
-    fetch(`//localhost:2492/get/song-information/${record_id}`)
+    fetch(`/get/song-information/${record_id}`)
     .then((response) => {
         if(!response.ok) {throw new Error(`HTTP error ${response.status}`);}
         return response.json();
@@ -203,7 +203,7 @@ function Database_UpdateSong(record_id) {
         headers: { 'Content-Type': 'application/json' }
     }
 
-    fetch(`//localhost:2492/put/${record_id}`, requestInfo)
+    fetch(`/put/${record_id}`, requestInfo)
     .then((response) => {
         if(!response.ok) {throw new Error(`HTTP error ${response.status}`);}
         return response.text()
