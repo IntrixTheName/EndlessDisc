@@ -81,11 +81,12 @@ function Database_GetSongInfo(record_id) {
         let form = document.getElementById("editor-form");
 
         //Rebuild the form with the new elements
+
         let label = document.createElement("label");
         let input = document.createElement("input");
         label.innerText = "Title: ";
         input.id = "title"; input.name = "title";
-        input.setAttribute("required",""); //input.setAttribute("value", result.title);
+        input.setAttribute("required","");
         label.appendChild(input); form.appendChild(label);
         form.appendChild(document.createElement("br"));
         form.appendChild(document.createElement("br"));
@@ -94,7 +95,7 @@ function Database_GetSongInfo(record_id) {
         input = document.createElement("input");
         label.innerText = "Artist: ";
         input.id = "artist"; input.name = "artist";
-        input.setAttribute("required",""); //input.setAttribute("value", result.artist);
+        input.setAttribute("required","");
         label.appendChild(input); form.appendChild(label);
         form.appendChild(document.createElement("br"));
         form.appendChild(document.createElement("br"));
@@ -103,7 +104,7 @@ function Database_GetSongInfo(record_id) {
         input = document.createElement("input");
         label.innerText = "Year: ";
         input.id = "year"; input.name = "year";
-        input.setAttribute("max","2099"); //input.setAttribute("value", result.release_year ? result.release_year : "");
+        input.setAttribute("max","2099");
         label.appendChild(input); form.appendChild(label);
         form.appendChild(document.createElement("br"));
         form.appendChild(document.createElement("br"));
@@ -112,13 +113,14 @@ function Database_GetSongInfo(record_id) {
         input = document.createElement("input");
         label.innerText = "Track#: ";
         input.id = "track_num"; input.name = "track_num";
-        input.setAttribute("min","0"); input.setAttribute("size","5"); //input.setAttribute("value", result.release_year)
+        input.setAttribute("min","0"); input.setAttribute("size","5");
         label.appendChild(input); form.appendChild(label);
 
         label = document.createElement("label");
         input = document.createElement("input");
         label.innerText = "Disc#: ";
-        input.id = "disc_num"; input.name = "disc_num"; input.setAttribute("min","1"); input.setAttribute("size","5");
+        input.id = "disc_num"; input.name = "disc_num";
+        input.setAttribute("min","1"); input.setAttribute("size","5");
         label.appendChild(input); form.appendChild(label);
         form.appendChild(document.createElement("br"));
         form.appendChild(document.createElement("br"));
