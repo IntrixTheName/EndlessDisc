@@ -44,18 +44,19 @@ app.get('/', (req, res) => {
 });
 
 //Manually check connection from web server to this file
-app.get('/connection-test', (req, res) => {
+function connection_test(req, res) {
     res.json({
-      message: 'app.js responded'
-    });
-})
+        message: 'app.js responded'
+      }); 
+}
+app.get('/connection-test', connection_test);
 
 
 
 //GET--------------------------------------------------------------------------
 
 //Get limited inforation for all songs (library window)
-app.get('/get/song-information', (req, res) => {
+function get_all_song_information(req, res) {
     console.log("Getting song information from database")
     con.connect(function(err) {
         if (err) throw err;
@@ -70,10 +71,11 @@ app.get('/get/song-information', (req, res) => {
             res.json(queryResult);
         })
     })
-})
+}
+app.get('/get/song-information', get_all_song_information)
 
 //Get all information for a specific song (editor window)
-app.get('/get/song-information/:id', (req, res) => {
+function get_song_information(req, res) {
     console.log(`Getting song info for ID #${req.params.id}`);
     con.connect(function(err) {
         if (err) throw err;
@@ -88,16 +90,15 @@ app.get('/get/song-information/:id', (req, res) => {
             res.json(queryResult);
         })
     })
-})
+}
+app.get('/get/song-information/:id', get_song_information);
 
 
 
 //PUT--------------------------------------------------------------------------
 
 //Update record in database
-app.put('/put/:id', (req, res) => {
-    console.log(req.params.id);
-    console.log("Inside of /put/");
+function update_song_info(req, res) {
     con.connect(function(err) {
         if(err) throw err;
         console.log("Connected...");
@@ -137,18 +138,19 @@ app.put('/put/:id', (req, res) => {
                 if (err) throw err;
                 console.log(result);
                 res.json({
-                    message: 'Updated record '
+                    message: 'Updated record'
                   });
             })
     })
-})
+}
+app.put('/put/:id', update_song_info);
 
 
 
 //POST-------------------------------------------------------------------------
 
 //Upload new record to database
-app.post('/post/upload-song', (req, res) => {
+function upload_song(req, res) {
     con.connect(function(err) {
         if (err) throw err;
         console.log("Connected...");
@@ -193,7 +195,8 @@ app.post('/post/upload-song', (req, res) => {
               });
         })
     })
-})
+}
+app.post('/post/upload-song', upload_song);
 
 
 
