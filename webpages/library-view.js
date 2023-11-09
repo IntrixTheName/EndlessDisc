@@ -77,8 +77,10 @@ function Database_GetSongInfo(record_id) {
             ["language", result.language],
             ["genre", result.genre]];
 
-        document.getElementById("editor-form").innerHTML = "";
+        //document.getElementById("editor-form").innerHTML = "";
         let form = document.getElementById("editor-form");
+        form.innerHTML = "";
+        form.setAttribute("action",`Database_UpdateSong${record_id}`);
 
         //Rebuild the form with the new elements
 
@@ -166,8 +168,8 @@ function Database_GetSongInfo(record_id) {
         form.appendChild(document.createElement("br"));
         
         let submit = document.createElement("input");
-        submit.setAttribute("type","button"); submit.setAttribute("value","Submit");
-        submit.setAttribute("onclick",`Database_UpdateSong(${record_id})`);
+        submit.setAttribute("type","submit"); submit.setAttribute("value","Submit");
+        //submit.setAttribute("onclick",`Database_UpdateSong(${record_id})`);
         form.appendChild(submit);
 
         //Insert the new values from the retrieved information
@@ -215,4 +217,11 @@ function Database_UpdateSong(record_id) {
         Database_GetAllSongInfo();
     })
     .catch((error) => console.log('record id ' + record_id + ' trouble - ' + error));
+}
+
+
+
+//Allow a song to be uploaded to the library
+function UploadSong() {
+
 }

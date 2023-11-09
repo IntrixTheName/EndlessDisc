@@ -1,18 +1,12 @@
 //SETUP----------------------------------------------------------------------------------------------------------------
 
 //Require tools
-const express = require('express'), cors = require('cors'), bodyParser = require('body-parser'), path = require('path');
+const express = require('express'), cors = require('cors'), bodyParser = require('body-parser'), path = require('path'), upload = require('express-fileupload');
 let mysql = require('mysql2'), url = require('url'); //zip = require('7zip')//['7z'];
 
 //Setup express
 const app = express();
-app.use(cors()); app.use(bodyParser.json()); app.use(express.static(__dirname));
-
-/* app.use(function(req, res, next) { //Configuring CORS to work properly w/ put & post
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-    next();
-}) */
+app.use(cors()); app.use(bodyParser.json()); app.use(express.static(__dirname)); app.use(upload());
 
 //Global variables to make modifications easier
 let usr = "IntrixTheName", pwd = "Foxtrot492"; //Bad practice to put pwd in plaintext, but will be dealt with in a later version
@@ -179,7 +173,7 @@ function upload_song(req, res) {
         for(let i in columns) {
             if(entry[i][1]) {query += entry[i][0] + ",";}
         }
-        query = query.substring(0, query.length - 2); //Remove last comma
+        query = query.substring(0, query.length - 2); //Remove last comma (-2 because 0-based index)
         query.concat(") VALUES (");
         for(let i in columns) {
             if(entry[i][1]) {query += "\"" + entry[i] + "\",";}
