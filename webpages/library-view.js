@@ -66,24 +66,122 @@ function Database_GetSongInfo(record_id) {
         result = result[0]; //Returns an array with json elements, just make it the json directly
 
         let items = 
-            [["title", result.title],
-            ["artist", result.artist],
-            ["year", result.release_year],
-            ["track_number", result.track_num],
-            ["disc_number", result.disc_num],
-            ["grouping", result.grp],
-            ["comment", result.comment],
-            ["uploader", result.uploader],
-            ["language", result.language],
-            ["genre", result.genre]];
+            [["Title", result.title],
+            ["Artist", result.artist],
+            ["Year", result.release_year],
+            ["Track#", result.track_num],
+            ["Disc#", result.disc_num],
+            ["Grouping", result.grp],
+            ["Comment", result.comment],
+            ["Uploader", result.uploader],
+            ["Language", result.language],
+            ["Genre", result.genre]];
 
         //document.getElementById("editor-form").innerHTML = "";
         let form = document.getElementById("editor-form");
         form.innerHTML = "";
-        form.setAttribute("action",`Database_UpdateSong${record_id}`);
+        //form.setAttribute("action",`Database_UpdateSong(${record_id})`);
 
         //Rebuild the form with the new elements
 
+        function create_input(id, attr, vals) {
+            let label = document.createElement("label");
+            let input = document.createElement("input");
+            label.innerText = id + ": ";
+            input.id = id; input.name = id;
+
+            for(let i in attr) {input.setAttribute(attr[i],vals[i]);}
+
+            label.appendChild(input); form.appendChild(label);
+            if(id != "Track#") {
+                form.appendChild(document.createElement("br"));
+                form.appendChild(document.createElement("br"));
+            }
+            
+        }
+
+        create_input("Title",["required"],[""]);
+        create_input("Artist",["required"],[""]);
+        create_input("Album",[],[]);
+        create_input("Year",["max"],["2099"]);
+        create_input("Track#",["min","size"],["0","5"]);
+        create_input("Disc#",["min","size"],["1","5"]);
+        create_input("Grouping",[],[]);
+        create_input("Comment",[],[]);
+        create_input("Uploader",[],[]);
+        create_input("Language",[],[]);
+        create_input("Genre",[],[]);
+        
+        let submit = document.createElement("input");
+        submit.setAttribute("type","button");
+        submit.setAttribute("onClick",`Database_UpdateSong(${record_id})`);
+        submit.setAttribute("value","Submit");
+        form.appendChild(submit);
+
+        //Insert the new values from the retrieved information
+        for(let i in items) {
+            //document.getElementById(items[i][0]).setAttribute("value","");
+            if(items[i][1]) {document.getElementById(items[i][0]).setAttribute("value",items[i][1])}
+        }
+    })
+}
+
+
+
+//Update a row from the database
+function Database_UpdateSong(record_id) {
+    console.log(`writing to database with${record_id}`)
+
+    var song = {
+        title: document.getElementById("Title").value,
+        artist: document.getElementById("Artist").value,
+        year: document.getElementById("Year").value,
+        track_num: document.getElementById("Track#").value,
+        disc_num: document.getElementById("Disc#").value,
+        grouping: document.getElementById("Grouping").value,
+        comment: document.getElementById("Comment").value,
+        uploader: document.getElementById("Uploader").value,
+        language: document.getElementById("Language").value,
+        genre: document.getElementById("Genre").value,
+    }
+
+    console.log(song);
+
+    var requestInfo = { 
+        method: "PUT",
+        body: JSON.stringify(song),
+        headers: { 'Content-Type': 'application/json' }
+    }
+
+    fetch(`/put/${record_id}`, requestInfo)
+    .then((response) => {
+        if(!response.ok) {throw new Error(`HTTP error ${response.status}`);}
+        return response.text()
+    })
+    .then((result) => {
+        console.log(result);
+        Database_GetAllSongInfo();
+    })
+    .catch((error) => console.log('record id ' + record_id + ' trouble - ' + error));
+}
+
+
+
+//Allow a song to be uploaded to the library
+function UploadSong() {
+
+}
+
+
+
+
+
+
+
+
+
+
+/*Archive--------------------------------------------------------------------------------------------------------------
         let label = document.createElement("label");
         let input = document.createElement("input");
         label.innerText = "Title: ";
@@ -98,6 +196,14 @@ function Database_GetSongInfo(record_id) {
         label.innerText = "Artist: ";
         input.id = "artist"; input.name = "artist";
         input.setAttribute("required","");
+        label.appendChild(input); form.appendChild(label);
+        form.appendChild(document.createElement("br"));
+        form.appendChild(document.createElement("br"));
+
+        label = document.createElement("label");
+        input = document.createElement("input");
+        label.innerText = "Album: ";
+        input.id = "album"; input.name = "album";
         label.appendChild(input); form.appendChild(label);
         form.appendChild(document.createElement("br"));
         form.appendChild(document.createElement("br"));
@@ -150,7 +256,7 @@ function Database_GetSongInfo(record_id) {
         label.appendChild(input); form.appendChild(label);
         form.appendChild(document.createElement("br"));
         form.appendChild(document.createElement("br"));
-        
+
         label = document.createElement("label");
         input = document.createElement("input");
         label.innerText = "Language: ";
@@ -166,62 +272,4 @@ function Database_GetSongInfo(record_id) {
         label.appendChild(input); form.appendChild(label);
         form.appendChild(document.createElement("br"));
         form.appendChild(document.createElement("br"));
-        
-        let submit = document.createElement("input");
-        submit.setAttribute("type","submit"); submit.setAttribute("value","Submit");
-        //submit.setAttribute("onclick",`Database_UpdateSong(${record_id})`);
-        form.appendChild(submit);
-
-        //Insert the new values from the retrieved information
-        for(let i in items) {
-            //document.getElementById(items[i][0]).setAttribute("value","");
-            if(items[i][1]) {document.getElementById(items[i][0]).setAttribute("value",items[i][1])}
-        }
-    })
-}
-
-
-
-//Update a row from the database
-function Database_UpdateSong(record_id) {
-    console.log(`writing to database with ${record_id}`)
-
-    var song = {
-        title: document.getElementById("title").value,
-        artist: document.getElementById("artist").value,
-        year: document.getElementById("year").value,
-        track_num: document.getElementById("track_num").value,
-        disc_num: document.getElementById("disc_num").value,
-        grouping: document.getElementById("grouping").value,
-        comment: document.getElementById("comment").value,
-        uploader: document.getElementById("uploader").value,
-        language: document.getElementById("language").value,
-        genre: document.getElementById("genre").value,
-    }
-
-    console.log(song);
-
-    var requestInfo = { 
-        method: "PUT",
-        body: JSON.stringify(song),
-        headers: { 'Content-Type': 'application/json' }
-    }
-
-    fetch(`/put/${record_id}`, requestInfo)
-    .then((response) => {
-        if(!response.ok) {throw new Error(`HTTP error ${response.status}`);}
-        return response.text()
-    })
-    .then((result) => {
-        console.log(result);
-        Database_GetAllSongInfo();
-    })
-    .catch((error) => console.log('record id ' + record_id + ' trouble - ' + error));
-}
-
-
-
-//Allow a song to be uploaded to the library
-function UploadSong() {
-
-}
+        */

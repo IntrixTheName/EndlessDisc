@@ -121,6 +121,7 @@ function update_song_info(req, res) {
 
             for(let i in columns) { //Add each column to update
                 if(columns[i][1]) {query += columns[i][0] + " = \"" + columns[i][1] + "\", ";}
+                else {query += columns[i][0] + " = NULL, ";}
             }
 
             query = query.substring(0, query.length - 2); //Trim comma from end
