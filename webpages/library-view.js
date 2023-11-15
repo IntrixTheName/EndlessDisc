@@ -169,7 +169,22 @@ function Database_UpdateSong(record_id) {
 
 //Allow a song to be uploaded to the library
 function UploadSong() {
+    console.log("Uploading songs to database...");
 
+    var requestInfo = { 
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' }
+    }
+
+    fetch('/post/upload-song',requestInfo)
+    .then((response) => {
+        if(!response.ok) {throw new Error(`HTTP error ${response.status}`);}
+        return response.json();
+    })
+    .then((result) => {
+        console.log(result);
+        Database_GetAllSongInfo();
+    })
 }
 
 

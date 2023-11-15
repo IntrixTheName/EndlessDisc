@@ -9,9 +9,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/core": "^7.23.3",
+    "babel-jest": "^29.7.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "express-fileupload": "^1.4.2"
+    "express-fileupload": "^1.4.2",
+    "supertest": "^6.3.3"
   },
   "devDependencies": {
     "jest": "^29.7.0"

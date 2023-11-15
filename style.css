@@ -18,6 +18,7 @@ body {
     background-image: url("resources/logo/logo-notext.png");
     background-repeat: no-repeat;
     background-position: center;
+    background-attachment: fixed;
     background-color: var(--primary2_bkgd);
     color: var(--primary1);
     font-family: MontserratBold;
@@ -35,15 +36,18 @@ body {
     padding: 20px;
     text-align: center;
     width: 75%;
+    overflow-y: auto;
 }
 .music-box {
     border: 3px #ffff;
     padding: 20px;
+    overflow-y: auto;
 }
 .music-box-library {
     width: 50%;
     float: left;
     padding: 20px;
+    overflow-y: auto;
 }
 .music-box-editor {
     width: 30%;
@@ -51,6 +55,7 @@ body {
     padding: 20px;
     border: 1px solid var(--primary1);
     border-collapse: collapse;
+    overflow-y: auto;
 }
 
 .button {
@@ -123,3 +128,7 @@ th, td {
 
 
 
+form {
+    border: 1px solid var(--primary1);
+    padding: 10px;
+}
