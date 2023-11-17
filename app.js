@@ -1,8 +1,17 @@
 //SETUP----------------------------------------------------------------------------------------------------------------
 
 //Require tools
-const express = require('express'), cors = require('cors'), bodyParser = require('body-parser'), path = require('path'), upload = require('express-fileupload');
-let mysql = require('mysql2'), url = require('url'); //zip = require('7zip')//['7z'];
+const express = require('express'), 
+    cors = require('cors'),
+    bodyParser = require('body-parser'),
+    path = require('path'),
+    upload = require('express-fileupload'),
+    NodeID3 = require('node-id3');
+
+let mysql = require('mysql2'), 
+    url = require('url'), 
+    fs = require('fs'),
+    zip = require('7zip');//['7z'];
 
 //Setup express
 const app = express();
@@ -32,9 +41,17 @@ con.connect(function(err) {
 
 //UTILITY----------------------------------------------------------------------
 
-//"Sleep"-ish function, to prevent execution while waiting for a promise to resolve
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+//"Sleep"-ish function, to halt execution for X milliseconds
+function sleep(ms) {return new Promise(resolve => setTimeout(resolve, ms));}
+
+//Make the input safe for sql
+function filter_sql_input(input) {
+    return input
+    .replaceAll("\\","\\\\")
+    .replaceAll("\"","\\\"")
+    .replaceAll("\'","\\\'")
+    .replaceAll("%","\\%")
+    .replaceAll("_","\\_")
 }
 
 //Send the main screen
@@ -161,19 +178,21 @@ function upload_song(req, res) {
 
     function insert(query) {
         return new Promise(function(resolve,reject) {
+            //console.log(query);
             con.query(query, function(err, result) {
                 if (err) return reject(err); //Reject promise if error
                 //inserted_id = result.insertId; //Update the referenced variable
-                console.log(`Inserted, id=${result.insertId}`); //Logging
-                resolve(result.insertId); //Resolve the promise
+                //console.log(`Inserted, id=${result.insertId}`); //Logging
+                resolve(result); //Resolve the promise
             })
         })
     }
     function select(query) {
         return new Promise(function(resolve,reject) {
+            //console.log(query);
             con.query(query, function(err,result) {
                 if (err) return reject(err);
-                console.log("Retrieved data from database");
+                //console.log("Selected, data:"); console.log(result);
                 resolve(result);
             })
         })
@@ -191,24 +210,24 @@ function upload_song(req, res) {
         let info = require('./upload/mp3tag.json');
 
         for(let i in info) {
-            console.log("Album: " + info[i].Album);
+            //console.log("Album: " + info[i].Album);
             let entry =
-                [["title", info[i].Title],
-                ["artist", info[i].Artist],
+                [["title", filter_sql_input(info[i].Title)],
+                ["artist", filter_sql_input(info[i].Artist)],
                 ["release_year", info[i].Year],
                 ["track_num", info[i].Track],
-                ["disc_num", info[i].Disc.length > 2 ? '' : info[i].Disc],
-                ["grp", info[i].Grouping],
-                ["comment", info[i].Comment],
+                ["disc_num", filter_sql_input(info[i].Disc.length > 2 ? '' : info[i].Disc)],
+                ["grp", filter_sql_input(info[i].Grouping)],
+                ["comment", filter_sql_input(info[i].Comment)],
                 ["uploader", info[i].Uploader],
                 ["language", info[i].Language],
                 ["genre", info[i].Genre],
                 ["last_modified", date_string], //yyyy-mm-dd string for database
-                ["album", info[i].Disc.length > 2 ? info[i].Disc : info[i].Album]]
+                ["album", filter_sql_input(info[i].Disc.length > 2 ? info[i].Disc : info[i].Album)]]
 
             //let album = Number.isInteger(info[i].Disc) ? info[i].Album : info[i].Disc;
             //let superalbum = info[i].SuperAlbum;
-            console.log(entry); console.log(entry[11][1]);
+            //console.log(entry); console.log(entry[11][1]);
 
             //Format `INSERT INTO <table> (x,y,z) VALUES (a,b,c)`
             let query = "INSERT INTO song_upload (";
@@ -222,31 +241,26 @@ function upload_song(req, res) {
                 if(entry[i][1]) {query += "\"" + entry[i][1] + "\", ";}
                 //else{query += "NULL" + ",";}
             }
-            query = query.substring(0,query.length - 2) + ")"; //Remove last comma & close
+            query = query.substring(0,query.length - 2) + ")"; //Remove last comma & close (filtered components, so filtering whole is unnecessary)
 
-            console.log(query);
+            //Variables for tracking information about upload
+            let track_id = null, //ID of track in song_info
+            album_select = null, //ID of album in album_info
+            discard = null; //Store useless return values
 
-            let track_id = null, album_id = null, discard = null;
+            track_id = await insert(query); track_id = track_id.insertId;
 
-            track_id = await insert(query)
-            album_select = await select(`SELECT album_id FROM album_info WHERE album_name = "${entry[11][1]}"`)
-            //console.log(album_select[0].album_id);
-            album_select = await insert(`INSERT IGNORE INTO album_info (album_name) VALUES ("${entry[11][1]}")`)
+            album_select = await insert(`INSERT INTO album_info (album_name) VALUES ("${entry[11][1]}") ON DUPLICATE KEY UPDATE album_name=album_name`);
+            //console.log(album_select);
+            album_select = await select(`SELECT album_id FROM album_info WHERE album_name = "${entry[11][1]}"`);
+            //console.log(album_select);
             //if(!album_select.length) {album_select = await insert(`INSERT INTO album_info (album_name) VALUES ("${entry[11][1]}")`)}
             discard = await insert(`INSERT INTO album_contents (song_id, album_id) VALUES (${track_id}, ${album_select[0].album_id})`);
 
-            //await sleep(100)
+            if(i % Math.floor(info.length / 10) == 0) {console.log(`Uploaded ${Math.ceil(100*(i/info.length))}%`)};
         }
 
         res.json({message: "Completed uploading all tracks"})
-
-        /* con.query(query,function(err,result) {
-            if (err) throw err;
-            console.log("Song written to database");
-            routeResult.json({
-                message: 'Inserted record ' + result.insertId
-              });
-        }) */
     })
 }
 app.post('/post/upload-song', upload_song);
@@ -262,9 +276,7 @@ app.listen(2492, () => {
 
 
 
-//UNUSED ROUTES--------------------------------------------------------------------------------------------------------
-
-/*
+/*UNUSED ROUTES--------------------------------------------------------------------------------------------------------
 
 //Retreive all users from the database (used to populate dropdown on login screen)
 app.get('/get/users', (req, res) => {
