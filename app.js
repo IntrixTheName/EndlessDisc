@@ -197,6 +197,14 @@ function upload_song(req, res) {
             })
         })
     }
+    function file_read(path) {
+        return new Promise(function(resolve,reject) {
+            fs.readFile(path,(err,data) => {
+                if (err) return reject(err);
+                resolve(data);
+            })
+        })
+    }
 
     con.connect(async function(err) {
         if (err) throw err;
@@ -253,6 +261,15 @@ function upload_song(req, res) {
             album_select = await insert(`INSERT INTO album_info (album_name) VALUES ("${entry[11][1]}") ON DUPLICATE KEY UPDATE album_name=album_name`);
             //console.log(album_select);
             album_select = await select(`SELECT album_id FROM album_info WHERE album_name = "${entry[11][1]}"`);
+            
+            try{let album_art = await file_read(`./upload/art/${entry[11][1]}.jpg`); fs.writeFile(`./library/art/${entry[11][1]}.jpg`,album_art,console.log(`${entry[11][1]}.jpg uploaded`));}
+            catch{console.log(`Album art for ${entry[11][1]} not working`);}
+
+            try{let lyrics = await file_read(`./upload/lrc/${entry[1][1]} - ${entry[0][1]}.lrc`); fs.writeFile(`./library/lrc/${entry[11][1]}.lrc`,album_art,console.log(`${entry[11][1]}.lrc uploaded`));}
+            catch{console.log(`Lyrics for ${entry[1][1]} - ${entry[0][1]} not found`);}
+
+            let song = await file_read(`./upload/songs/${entry[1][1]} - ${entry[0][1]}.mp3`);
+            fs.writeFile(`./library/songs/${entry[1][1]} - ${entry[0][1]}.mp3`,song,console.log(`${entry[1][1]} - ${entry[0][1]}.mp3 uploaded`))
             //console.log(album_select);
             //if(!album_select.length) {album_select = await insert(`INSERT INTO album_info (album_name) VALUES ("${entry[11][1]}")`)}
             discard = await insert(`INSERT INTO album_contents (song_id, album_id) VALUES (${track_id}, ${album_select[0].album_id})`);
