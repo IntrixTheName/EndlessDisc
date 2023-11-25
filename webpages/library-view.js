@@ -114,6 +114,7 @@ function Database_GetSongInfo(record_id) {
         
         let submit = document.createElement("input");
         submit.setAttribute("type","button");
+        submit.setAttribute("class","button");
         submit.setAttribute("onClick",`Database_UpdateSong(${record_id})`);
         submit.setAttribute("value","Submit");
         form.appendChild(submit);
@@ -184,6 +185,27 @@ function UploadSong() {
     .then((result) => {
         console.log(result);
         Database_GetAllSongInfo();
+    })
+}
+
+
+
+//Collects the songs and sends them back to the user
+function ExportSongs() {
+    fetch('/get/export')
+    .then((response) => {
+        if(!response.ok) {throw new Error(`HTTP error ${response.status}`);}
+        return response.blob();
+    })
+    .then((blob) => {
+        var url = window.URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = "export.zip";
+        document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+        a.click();
+        a.remove();  //afterwards we remove the element again
+        console.log("File delivered");
     })
 }
 

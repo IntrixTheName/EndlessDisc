@@ -26,7 +26,7 @@ body {
     padding: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    /*align-items: center;*/
     height: 100vh;
 }
 .container {
@@ -40,19 +40,19 @@ body {
 }
 .music-box {
     border: 3px #ffff;
-    padding: 20px;
+    padding: 0%;
     overflow-y: auto;
 }
 .music-box-library {
     width: 50%;
     float: left;
-    padding: 20px;
+    padding: 0%;
     overflow-y: auto;
 }
 .music-box-editor {
-    width: 30%;
-    float: left;
-    padding: 20px;
+    width: 35%;
+    float: right;
+    padding: 5%;
     border: 1px solid var(--primary1);
     border-collapse: collapse;
     overflow-y: auto;

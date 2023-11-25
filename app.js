@@ -6,12 +6,14 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     path = require('path'),
     upload = require('express-fileupload'),
-    NodeID3 = require('node-id3');
+    NodeID3 = require('node-id3').Promise,
+    zip = require('express-zip');
 
+const { filter } = require('jszip');
 let mysql = require('mysql2'), 
     url = require('url'), 
     fs = require('fs'),
-    zip = require('7zip');//['7z'];
+    fs_promise = require('fs/promises');
 
 //Setup express
 const app = express();
@@ -45,13 +47,17 @@ con.connect(function(err) {
 function sleep(ms) {return new Promise(resolve => setTimeout(resolve, ms));}
 
 //Make the input safe for sql
-function filter_sql_input(input) {
+function filter_sql(input) {
     return input
     .replaceAll("\\","\\\\")
     .replaceAll("\"","\\\"")
     .replaceAll("\'","\\\'")
     .replaceAll("%","\\%")
     .replaceAll("_","\\_")
+}
+function filter_filename(input) {
+    return input
+    .replaceAll(/[<>:"/\||?*]/g,"_")
 }
 
 //Send the main screen
@@ -74,6 +80,35 @@ app.get('/connection-test', connection_test);
 
 module.exports = connection_test; //For Jest testing
 
+function insert(query) {
+    return new Promise(function(resolve,reject) {
+        //console.log(query);
+        con.query(query, function(err, result) {
+            if (err) return reject(err); //Reject promise if error
+            //inserted_id = result.insertId; //Update the referenced variable
+            //console.log(`Inserted, id=${result.insertId}`); //Logging
+            resolve(result); //Resolve the promise
+        })
+    })
+}
+function select(query) {
+    return new Promise(function(resolve,reject) {
+        //console.log(query);
+        con.query(query, function(err,result) {
+            if (err) return reject(err);
+            console.log("Selected, data:"); console.log(result);
+            resolve(result);
+        })
+    })
+}
+function file_read(path) {
+    return new Promise(function(resolve,reject) {
+        fs.readFile(path,(err,data) => {
+            if (err) return reject(err);
+            resolve(data);
+        })
+    })
+}
 
 
 //GET--------------------------------------------------------------------------
@@ -85,7 +120,7 @@ function get_all_song_information(req, res) {
         if (err) throw err;
         console.log("Connected...");
 
-        let query = "SELECT song_id, title, artist FROM song_info";
+        let query = "SELECT song_id, title, artist FROM song_info ORDER BY title";
         console.log(query);
 
         con.query(query, function(err, queryResult, fields) {
@@ -115,6 +150,64 @@ function get_song_information(req, res) {
     })
 }
 app.get('/get/song-information/:id', get_song_information);
+
+//Download the exported songs
+async function get_export(req,res) {
+    console.log("Exporting song library...");
+    let files = []
+    //const zip = new JSZip();
+    //let art = zip.folder("art");
+    //let lrc = zip.folder("lrc");
+    //let songs = zip.folder("songs");
+
+    //Transfer album art to archive
+    console.log("Adding album art to archive...");
+    const album_art = await fs_promise.readdir("./library/art");
+    //console.log(album_art);
+    for(let i in album_art) {
+        files.push({name: `/art/${filter_filename(album_art[i])}`, path: `./library/art/${album_art[i]}`})
+    }
+    
+    //Transfer lyrics to archive
+    console.log("Adding lyrics to archive...");
+    const lyrics = await fs_promise.readdir("./library/lrc");
+    for(let i in lyrics) {
+        files.push({name: `/lrc/${filter_filename(lyrics[i])}`, path: `./library/lrc/${lyrics[i]}`})
+    }
+
+    //Transfer mp3's to archive
+    console.log("Adding songs to archive...");
+    const song_list = await fs_promise.readdir("./library/songs");
+    for(let i in song_list) {
+        let song_id = song_list[i].substring(0,song_list[i].lastIndexOf("."));
+        let tags = await select(`SELECT * FROM song_info WHERE song_id = ${song_id}`); //Grab updated tags from database
+        tags = tags[0]; //Housekeeping, because it returns array of JSON
+        let album_name = await select(`SELECT album_name FROM album_contents INNER JOIN album_info ON album_contents.album_id = album_info.album_id WHERE song_id = ${song_id}`); //Grab album name
+
+        let tag_buffer = { //Setup for implementing tags to file
+            title: tags.title,
+            artist: tags.artist,
+            album: album_name,
+            year: tags.release_year,
+            trackNumber: tags.track_num,
+            partOfSet: tags.disc_num,
+            contentGroup: tags.grp,
+            comment: {language: "eng", text: tags.comment},
+            language: tags.language,
+            genre: tags.genre
+        }
+
+        //Write tags to file
+        let confirm_tags = await NodeID3.update(tag_buffer,`./library/songs/${song_list[i]}`);
+
+        //Transfer updated file to archive
+        files.push({name: `/songs/${filter_filename(tags.artist + " - " + tags.title)}.mp3`, path: `./library/songs/${song_id}.mp3`});
+    }
+
+    console.log(files);
+    res.zip(files,'export.zip');
+}
+app.get('/get/export',get_export);
 
 
 
@@ -175,37 +268,6 @@ app.put('/put/:id', update_song_info);
 
 //Upload new record to database
 function upload_song(req, res) {
-
-    function insert(query) {
-        return new Promise(function(resolve,reject) {
-            //console.log(query);
-            con.query(query, function(err, result) {
-                if (err) return reject(err); //Reject promise if error
-                //inserted_id = result.insertId; //Update the referenced variable
-                //console.log(`Inserted, id=${result.insertId}`); //Logging
-                resolve(result); //Resolve the promise
-            })
-        })
-    }
-    function select(query) {
-        return new Promise(function(resolve,reject) {
-            //console.log(query);
-            con.query(query, function(err,result) {
-                if (err) return reject(err);
-                //console.log("Selected, data:"); console.log(result);
-                resolve(result);
-            })
-        })
-    }
-    function file_read(path) {
-        return new Promise(function(resolve,reject) {
-            fs.readFile(path,(err,data) => {
-                if (err) return reject(err);
-                resolve(data);
-            })
-        })
-    }
-
     con.connect(async function(err) {
         if (err) throw err;
         console.log("Connected...");
@@ -220,25 +282,26 @@ function upload_song(req, res) {
         for(let i in info) {
             //console.log("Album: " + info[i].Album);
             let entry =
-                [["title", filter_sql_input(info[i].Title)],
-                ["artist", filter_sql_input(info[i].Artist)],
+                [["title", filter_sql(info[i].Title)],
+                ["artist", filter_sql(info[i].Artist)],
                 ["release_year", info[i].Year],
                 ["track_num", info[i].Track],
-                ["disc_num", filter_sql_input(info[i].Disc.length > 2 ? '' : info[i].Disc)],
-                ["grp", filter_sql_input(info[i].Grouping)],
-                ["comment", filter_sql_input(info[i].Comment)],
+                ["disc_num", filter_sql(info[i].Disc.length > 2 ? '' : info[i].Disc)],
+                ["grp", filter_sql(info[i].Grouping)],
+                ["comment", filter_sql(info[i].Comment)],
                 ["uploader", info[i].Uploader],
                 ["language", info[i].Language],
                 ["genre", info[i].Genre],
                 ["last_modified", date_string], //yyyy-mm-dd string for database
-                ["album", filter_sql_input(info[i].Disc.length > 2 ? info[i].Disc : info[i].Album)]]
+                ["album", filter_sql(info[i].Disc.length > 2 ? info[i].Disc : info[i].Album)]]
 
+            let filename = info[i].Filename
             //let album = Number.isInteger(info[i].Disc) ? info[i].Album : info[i].Disc;
             //let superalbum = info[i].SuperAlbum;
             //console.log(entry); console.log(entry[11][1]);
 
             //Format `INSERT INTO <table> (x,y,z) VALUES (a,b,c)`
-            let query = "INSERT INTO song_upload (";
+            let query = "INSERT INTO song_info (";
             for(let i = 0; i < 11; i++) {
                 //query += entry[i][0] + ",";
                 if(entry[i][1]) {query += entry[i][0] + ", ";}
@@ -262,16 +325,15 @@ function upload_song(req, res) {
             //console.log(album_select);
             album_select = await select(`SELECT album_id FROM album_info WHERE album_name = "${entry[11][1]}"`);
             
-            try{let album_art = await file_read(`./upload/art/${entry[11][1]}.jpg`); fs.writeFile(`./library/art/${entry[11][1]}.jpg`,album_art,console.log(`${entry[11][1]}.jpg uploaded`));}
+            try{let album_art = await file_read(`./upload/art/${entry[11][1]}.jpg`); fs.writeFile(`./library/art/${entry[11][1]}.jpg`,album_art,() => {console.log(`${entry[11][1]}.jpg uploaded`)});}
             catch{console.log(`Album art for ${entry[11][1]} not working`);}
 
-            try{let lyrics = await file_read(`./upload/lrc/${entry[1][1]} - ${entry[0][1]}.lrc`); fs.writeFile(`./library/lrc/${entry[11][1]}.lrc`,album_art,console.log(`${entry[11][1]}.lrc uploaded`));}
+            try{let lyrics = await file_read(`./upload/lrc/${entry[1][1]} - ${entry[0][1]}.lrc`); fs.writeFile(`./library/lrc/${track_id}.lrc`,lyrics,() => {console.log(`${entry[11][1]}.lrc uploaded`)});}
             catch{console.log(`Lyrics for ${entry[1][1]} - ${entry[0][1]} not found`);}
 
-            let song = await file_read(`./upload/songs/${entry[1][1]} - ${entry[0][1]}.mp3`);
-            fs.writeFile(`./library/songs/${entry[1][1]} - ${entry[0][1]}.mp3`,song,console.log(`${entry[1][1]} - ${entry[0][1]}.mp3 uploaded`))
-            //console.log(album_select);
-            //if(!album_select.length) {album_select = await insert(`INSERT INTO album_info (album_name) VALUES ("${entry[11][1]}")`)}
+            try{let song = await file_read(`./upload/songs/${info[i].Filename}`); fs.writeFile(`./library/songs/${track_id}.mp3`,song,() => {console.log(`${entry[1][1]} - ${entry[0][1]}.mp3 uploaded`)});}
+            catch{console.log(`${info[i].Filename} can't be uploaded`)}
+            
             discard = await insert(`INSERT INTO album_contents (song_id, album_id) VALUES (${track_id}, ${album_select[0].album_id})`);
 
             if(i % Math.floor(info.length / 10) == 0) {console.log(`Uploaded ${Math.ceil(100*(i/info.length))}%`)};
