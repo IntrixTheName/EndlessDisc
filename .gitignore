@@ -1,7 +1,11 @@
 # Ignore the .idea directory created by VSC & node_modules from installation
 .idea/
-
 node_modules/
+
+# Ignore the files from the library
+*.mp3
+*.jpg
+*.lrc
 
 # Auto-created file
 package-lock.json
