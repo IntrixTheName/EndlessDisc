@@ -46,7 +46,7 @@ con.connect(function(err) {
 //"Sleep"-ish function, to halt execution for X milliseconds
 function sleep(ms) {return new Promise(resolve => setTimeout(resolve, ms));}
 
-//Make the input safe for sql
+//Filter inputs to make sure it's safe
 function filter_sql(input) {
     return input
     .replaceAll("\\","\\\\")
@@ -80,6 +80,7 @@ app.get('/connection-test', connection_test);
 
 module.exports = connection_test; //For Jest testing
 
+//Shorthand for insert statements, and to wrap command in a promise
 function insert(query) {
     return new Promise(function(resolve,reject) {
         //console.log(query);
@@ -91,6 +92,7 @@ function insert(query) {
         })
     })
 }
+//See insert(), similar application to select statements
 function select(query) {
     return new Promise(function(resolve,reject) {
         //console.log(query);
@@ -101,6 +103,7 @@ function select(query) {
         })
     })
 }
+//Wraps a promise around reading data from a file
 function file_read(path) {
     return new Promise(function(resolve,reject) {
         fs.readFile(path,(err,data) => {
@@ -120,6 +123,7 @@ function get_all_song_information(req, res) {
         if (err) throw err;
         console.log("Connected...");
 
+        //Selects info for the HTML table, and orders it by title for searchability
         let query = "SELECT song_id, title, artist FROM song_info ORDER BY title";
         console.log(query);
 
@@ -155,20 +159,16 @@ app.get('/get/song-information/:id', get_song_information);
 async function get_export(req,res) {
     console.log("Exporting song library...");
     let files = []
-    //const zip = new JSZip();
-    //let art = zip.folder("art");
-    //let lrc = zip.folder("lrc");
-    //let songs = zip.folder("songs");
 
-    //Transfer album art to archive
+    //Add album art to archive queue
     console.log("Adding album art to archive...");
-    const album_art = await fs_promise.readdir("./library/art");
-    //console.log(album_art);
-    for(let i in album_art) {
+    const album_art = await fs_promise.readdir("./library/art"); //Get all files in directory
+    for(let i in album_art) { //For each file in directory...
+        //...add file to queue
         files.push({name: `/art/${filter_filename(album_art[i])}`, path: `./library/art/${album_art[i]}`})
     }
     
-    //Transfer lyrics to archive
+    //Add lyrics to archive queue
     console.log("Adding lyrics to archive...");
     const lyrics = await fs_promise.readdir("./library/lrc");
     for(let i in lyrics) {
@@ -179,9 +179,15 @@ async function get_export(req,res) {
     console.log("Adding songs to archive...");
     const song_list = await fs_promise.readdir("./library/songs");
     for(let i in song_list) {
+        //Grad internal ID from filename
         let song_id = song_list[i].substring(0,song_list[i].lastIndexOf("."));
-        let tags = await select(`SELECT * FROM song_info WHERE song_id = ${song_id}`); //Grab updated tags from database
-        tags = tags[0]; //Housekeeping, because it returns array of JSON
+        
+        //Grab updated tags from database
+        let tags = await select(`SELECT * FROM song_info WHERE song_id = ${song_id}`);  
+
+        //Housekeeping, because it returns array of JSON
+        tags = tags[0]; 
+
         let album_name = await select(`SELECT album_name FROM album_contents INNER JOIN album_info ON album_contents.album_id = album_info.album_id WHERE song_id = ${song_id}`); //Grab album name
 
         let tag_buffer = { //Setup for implementing tags to file
@@ -197,10 +203,10 @@ async function get_export(req,res) {
             genre: tags.genre
         }
 
-        //Write tags to file
+        //Write updated tags to file
         let confirm_tags = await NodeID3.update(tag_buffer,`./library/songs/${song_list[i]}`);
 
-        //Transfer updated file to archive
+        //Add updated file to archive queue
         files.push({name: `/songs/${filter_filename(tags.artist + " - " + tags.title)}.mp3`, path: `./library/songs/${song_id}.mp3`});
     }
 
@@ -222,8 +228,8 @@ function update_song_info(req, res) {
         const date = new Date();
         let date_string = date.toISOString().split("T")[0]; //yyyy-mm-dd string for database
 
-        console.log(req.body);
-        console.log(date_string);
+        //console.log(req.body);
+        //console.log(date_string);
 
         let info = req.body;
         let columns =
@@ -239,6 +245,7 @@ function update_song_info(req, res) {
             ["genre", info.genre],
             ["last_modified", date_string]] //yyyy-mm-dd string for database
 
+            //Construct query, `UPDATE song_info SET x = "a", y = "b", ...`
             let query = "UPDATE song_info SET "
 
             for(let i in columns) { //Add each column to update
@@ -247,7 +254,7 @@ function update_song_info(req, res) {
             }
 
             query = query.substring(0, query.length - 2); //Trim comma from end
-            query += ` WHERE song_id = ${req.params.id};`; //Specify WHERE condition
+            query += ` WHERE song_id = ${req.params.id};`; //Specify WHERE for song_id
 
             console.log(query);
             

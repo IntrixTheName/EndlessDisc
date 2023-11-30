@@ -63,7 +63,7 @@ function Database_GetSongInfo(record_id) {
     .then((result) => {
         console.log(result);
 
-        result = result[0]; //Returns an array with json elements, just make it the json directly
+        result = result[0]; //Returns an array with objects, just make it the object directly
 
         let items = 
             [["Title", result.title],
@@ -198,13 +198,13 @@ function ExportSongs() {
         return response.blob();
     })
     .then((blob) => {
-        var url = window.URL.createObjectURL(blob);
-        var a = document.createElement('a');
-        a.href = url;
-        a.download = "export.zip";
-        document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
-        a.click();
-        a.remove();  //afterwards we remove the element again
+        var url = window.URL.createObjectURL(blob); //Creates URL for file
+        var a = document.createElement('a'); //Creates hyperlink element
+        a.href = url; //puts URL in hyperlink element
+        a.download = "export.zip"; //Tells browser to download the linked file from URL
+        document.body.appendChild(a); //For Firefox specifically, append to body to make clickable
+        a.click(); //Click the link & begin download
+        a.remove();  //Remove the element
         console.log("File delivered");
     })
 }
